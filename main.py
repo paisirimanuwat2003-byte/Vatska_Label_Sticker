@@ -3,6 +3,9 @@ import tkinter as tk
 from tkinter.ttk import *
 from welcome_page import welcome_page
 from agilent import agilent
+from welco import welco
+from taat import taat
+from electrolux import electrolux
 
 class excel_data_extractor(tk.Tk):
     def __init__(self):
@@ -35,7 +38,7 @@ class excel_data_extractor(tk.Tk):
         self.frames = {}
 
         # Add the welcome_page frame to the frames dictionary
-        for F in (welcome_page, agilent):
+        for F in (welcome_page, agilent, welco, taat, electrolux):
             page_name = F.__name__
             frame = F(parent=container, controller=self)
             self.frames[page_name] = frame
