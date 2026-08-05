@@ -28,7 +28,7 @@ class excel_data_extractor(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         # Load the PNG image file
-        img = tk.PhotoImage(file="vatska_icon.png")
+        img = tk.PhotoImage(file=r"D:\vatska\software\icons\vatska_icon.png")
 
         self.iconphoto(True, img)  # Ensure you have an icon.png in the same directory
 
