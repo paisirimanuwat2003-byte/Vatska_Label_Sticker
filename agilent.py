@@ -176,9 +176,9 @@ class agilent(Frame):
             # font_size: The size of the text under the barcode (default is 10)
             # quiet_zone: The white space margin on the left/right (default is 6.5)
             my_options = {
-                'module_width': 0.9,  # Makes the barcode wider/thicker
-                'module_height': 11.0, # Makes the barcode taller
-                'font_size': 12,       # Makes the text bigger
+                'module_width': 1.2,  # Makes the barcode wider/thicker
+                'module_height': 20.0, # Makes the barcode taller
+                'font_size': 16,       # Makes the text bigger
                 'quiet_zone': 2.0,      # Reduces the white border around the image
             }
             # 2. Pass your exact string with the dash!
@@ -414,7 +414,7 @@ class agilent(Frame):
                     <title>Label Layout</title>
                     <style>
                     @page {{
-                    size: 85mm 50mm; /* Set the exact physical PDF size here */
+                    size: 150mm 100mm; /* Set the exact physical PDF size here */
                     margin: 0; /* Remove default page margins */
                     }}
                 
@@ -426,15 +426,15 @@ class agilent(Frame):
                         /* The main outer border matching the image */
                         .label-container {{
                             padding-left: 5mm; /* Add some padding to the left for better alignment */
-                            width: 85mm; /* Adjust width as needed */
-                            height: 50mm; /* Adjust height as needed */
+                            width: 150mm; /* Adjust width as needed */
+                            height: 100mm; /* Adjust height as needed */
                             box-sizing: border-box;
                             position: relative;
                         }}
 
                         /* The top header text */
                         .header-text {{
-                            font-size: 10pt;
+                            font-size: 26pt;
                             letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
                             margin-bottom: 10px;
                             font-weight: normal;
@@ -445,7 +445,7 @@ class agilent(Frame):
                             padding-left: 5mm; /* Add some padding to the left for better alignment */
                             width: 85mm; /* Full width of the label */
                             border-collapse: collapse;
-                            font-size: 9pt;
+                            font-size: 16pt;
                             margin-bottom: 10px;
                         }}
 
@@ -462,8 +462,8 @@ class agilent(Frame):
                         .barcode-placeholder {{
                             padding-left: 2mm; /* Add some padding to the left for better alignment */
                             item-align: center;
-                            width: 60mm; /* Adjust width as needed */
-                            height: 11mm; /* Adjust height as needed */
+                            width: 100mm; /* Adjust width as needed */
+                            height: 20mm; /* Adjust height as needed */
                             position: absolute;
                             bottom: 2mm; /* Position it at the bottom of the label */
                         }}
