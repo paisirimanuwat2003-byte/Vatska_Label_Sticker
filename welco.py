@@ -42,6 +42,7 @@ class welco(Frame):
                 # Read the workbook
                 workbook = pd.read_excel(filepath, sheet_name=None, header=None)  # Read all sheets into a dictionary of DataFrames and disable header inference
 
+                text_preview.insert(tk.END, "เลือกไฟล์ Excel สำเร็จ!\n\nใช้ปุ่มด้านล่างเพื่อสร้างไฟล์ PDF\n\n")
 
         def process_excel(filepath):
 
@@ -51,9 +52,6 @@ class welco(Frame):
                     
                 # Update UI to show success
                 text_preview.delete(1.0, tk.END)
-                text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
-                text_preview.insert(tk.END, "เลือกไฟล์ Excel สำเร็จ!\n\nใช้ปุ่มด้านล่างเพื่อคัดลอกข้อมูลที่ต้องการไปยังคลิปบอร์ด:\n\n")
-
 
                 # 1. Button 1 Data: Job .1 sheet
                 if  f'A1_ใบสั่งงาน' in workbook:
@@ -62,12 +60,16 @@ class welco(Frame):
 
                     model = df.iloc[3, 7]  # Row 4, Column H
                     tube_size = df.iloc[10, 1]  # Row 11, Column B
-                    assy_oal = df.iloc[7, 7] # Row 8, Column H
+                    assy_oal = df.iloc[6, 7] # Row 7, Column H
                     tube_mat = df.iloc[9, 1] # Row 10, Column B
-                    assy_job_no = df.iloc[6, 2] # Row 7, Column C
-                    mfg_date = df.iloc[5, 7] # Row 6, Column H
+                    assy_job_no = df.iloc[5, 2] # Row 7, Column C
+                    mfg_date = df.iloc[4, 7] # Row 5, Column H
                     pack_qty = 10 # always 10
                     part_no = df.iloc[2, 7] # Row 3, Column H   
+
+                    copy_amount = df.iloc[5, 7] # Row 6, Column H
+
+                    text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
 
                     return model, tube_size, assy_oal, tube_mat, assy_job_no, mfg_date, pack_qty, part_no
 
@@ -181,7 +183,7 @@ class welco(Frame):
 
                     <div class="label-container">
                         <!-- Header Text -->
-                        <div class="header-text">W E L C O  Co.,Ltd</div>
+                        <div class="header-text">W E L C O</div>
 
                         <!-- Data Grid -->
                         <table class="data-table">

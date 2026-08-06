@@ -72,6 +72,8 @@ class agilent(Frame):
                         if i == 5:
                             btn_generate_small_5.config(state = 'disabled')
 
+                text_preview.insert(tk.END, "เลือกไฟล์ Excel สำเร็จ!\n\nใช้ปุ่มด้านล่างเพื่อสร้างไฟล์ PDF:\n\n")
+
         def process_excel(filepath, job_number, x_number):
 
             try:
@@ -80,9 +82,6 @@ class agilent(Frame):
                     
                 # Update UI to show success
                 text_preview.delete(1.0, tk.END)
-                text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
-                text_preview.insert(tk.END, "เลือกไฟล์ Excel สำเร็จ!\n\nใช้ปุ่มด้านล่างเพื่อคัดลอกข้อมูลที่ต้องการไปยังคลิปบอร์ด:\n\n")
-
 
                 # 1. Button 1 Data: Job .1 sheet
                 if  f'ใบงาน Agilent_JOB {job_number}.{x_number}' in workbook:
@@ -99,23 +98,31 @@ class agilent(Frame):
                     small_qty = df.iloc[16, 3]      # Row 17, Column D
                     qty = " "
 
-                    return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
+                    copy_amount = df.iloc[7, 13] # Row 8, Column N
 
-                elif f'ใบงาน Agilent_JOB {job_number}' in workbook:
-                    # Assuming we are inside the process_excel() function from the previous code
-                    df = workbook[f'ใบงาน Agilent_JOB {job_number}']  # Access the specific sheet by name
-
-                    part_number = df.iloc[8, 5]  # Row 9, Column F
-                    mpn = df.iloc[7, 5]   # Row 8, Column F
-                    description = df.iloc[29, 1]   # Row 30, Column B
-                    dom = df.iloc[6, 1]   # Row 7, Column B
-                    lot_no = df.iloc[6, 5]      # Row 7, Column F
-                    lot_qty = df.iloc[7, 12]      # Row 8, Column M
-                    sg_po = df.iloc[8, 12]      # Row 9, Column M
-                    small_qty = df.iloc[16, 3]      # Row 17, Column D
-                    qty = " "
+                    text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
 
                     return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
+
+                # elif f'ใบงาน Agilent_JOB {job_number}' in workbook:
+                #     # Assuming we are inside the process_excel() function from the previous code
+                #     df = workbook[f'ใบงาน Agilent_JOB {job_number}']  # Access the specific sheet by name
+
+                #     part_number = df.iloc[8, 5]  # Row 9, Column F
+                #     mpn = df.iloc[7, 5]   # Row 8, Column F
+                #     description = df.iloc[29, 1]   # Row 30, Column B
+                #     dom = df.iloc[6, 1]   # Row 7, Column B
+                #     lot_no = df.iloc[6, 5]      # Row 7, Column F
+                #     lot_qty = df.iloc[7, 12]      # Row 8, Column M
+                #     sg_po = df.iloc[8, 12]      # Row 9, Column M
+                #     small_qty = df.iloc[16, 3]      # Row 17, Column D
+                #     qty = " "
+
+                #     copy_amount = df.iloc[7, 14] # Row 8, Column N
+
+                #     text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
+
+                #     return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
 
                 elif x_number == 'large' or x_number == 'box':
                     # Assuming we are inside the process_excel() function from the previous code
@@ -134,6 +141,10 @@ class agilent(Frame):
                     sg_po = df.iloc[8, 12]      # Row 9, Column M
                     small_qty = df.iloc[16, 3]      # Row 17, Column D
                     qty = " "
+
+                    copy_amount = df.iloc[7, 13] # Row 8, Column N
+
+                    text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
 
                     return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
 
