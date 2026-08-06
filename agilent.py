@@ -28,6 +28,9 @@ class agilent(Frame):
         copy_data_8 = ""
         copy_amount = ""
 
+        file_path = ""
+        job_number = ""
+
         def select_file():
             filepath = filedialog.askopenfilename(
                 title="Select an Excel File",
@@ -37,19 +40,119 @@ class agilent(Frame):
                 # Extract just the file name from the full path
                 file_name = os.path.basename(filepath)
                 if len(file_name) <=20:
-                    job_number = file_name[14]  # Get the file name without extension
+                    jobNumber = file_name[14]  # Get the file name without extension for single-digit job numbers
                 elif len(file_name) <=21:
-                    job_number = file_name[14:16]  # Get the file name without extension
+                    jobNumber = file_name[14:16]  # Get the file name without extension for double-digit job numbers
 
                 # (Optional) Show the user which file they selected before processing
                 text_preview.delete(1.0, tk.END)
                 text_preview.insert(tk.END, f"Loading: {file_name}\n...")
-                
-                # You can even pass the file_name to your process function if you want to include 
-                # it in your formatted copied text!
-                process_excel(filepath, job_number)  # Pass the file name as job_number
 
-        # 1. Create a helper function to convert images to Base64 strings
+                nonlocal file_path, job_number
+                file_path = filepath
+                job_number = jobNumber
+
+                btn_generate_large_label.config(state = 'normal')
+                btn_generate_box_label.config(state = 'normal')
+                # Read the workbook
+                workbook = pd.read_excel(filepath, sheet_name=None, header=None)  # Read all sheets into a dictionary of DataFrames and disable header inference
+                for i in range(1,6):
+                    if f'ใบงาน Agilent_JOB {job_number}.{i}' in workbook:
+                        if i == 1:
+                            btn_generate_small_1.config(state = 'normal')
+                        if i == 2:
+                            btn_generate_small_2.config(state = 'normal')
+                        if i == 3:
+                            btn_generate_small_3.config(state = 'normal')
+                        if i == 4:
+                            btn_generate_small_4.config(state = 'normal')
+                        if i == 5:
+                            btn_generate_small_5.config(state = 'normal')
+                    else:
+                        if i == 1:
+                            btn_generate_small_1.config(state = 'disabled')
+                        if i == 2:
+                            btn_generate_small_2.config(state = 'disabled')
+                        if i == 3:
+                            btn_generate_small_3.config(state = 'disabled')
+                        if i == 4:
+                            btn_generate_small_4.config(state = 'disabled')
+                        if i == 5:
+                            btn_generate_small_5.config(state = 'disabled')
+
+        def process_excel(filepath, job_number, x_number):
+
+            try:
+                # Read the workbook
+                workbook = pd.read_excel(filepath, sheet_name=None, header=None)  # Read all sheets into a dictionary of DataFrames and disable header inference
+                    
+                # Update UI to show success
+                text_preview.delete(1.0, tk.END)
+                text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
+                text_preview.insert(tk.END, "เลือกไฟล์ Excel สำเร็จ!\n\nใช้ปุ่มด้านล่างเพื่อคัดลอกข้อมูลที่ต้องการไปยังคลิปบอร์ด:\n\n")
+
+
+                # 1. Button 1 Data: Job .1 sheet
+                if  f'ใบงาน Agilent_JOB {job_number}.{x_number}' in workbook:
+                    # Assuming we are inside the process_excel() function from the previous code
+                    df = workbook[f'ใบงาน Agilent_JOB {job_number}.{x_number}']  # Access the specific sheet by name
+
+                    part_number = df.iloc[8, 5]  # Row 9, Column F
+                    mpn = df.iloc[7, 5]   # Row 8, Column F
+                    description = df.iloc[29, 1]   # Row 30, Column B
+                    dom = df.iloc[6, 1]   # Row 7, Column B
+                    lot_no = df.iloc[6, 5]      # Row 7, Column F
+                    lot_qty = df.iloc[7, 12]      # Row 8, Column M
+                    sg_po = df.iloc[8, 12]      # Row 9, Column M
+                    small_qty = df.iloc[16, 3]      # Row 17, Column D
+                    qty = " "
+
+                    return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
+
+                elif f'ใบงาน Agilent_JOB {job_number}' in workbook:
+                    # Assuming we are inside the process_excel() function from the previous code
+                    df = workbook[f'ใบงาน Agilent_JOB {job_number}']  # Access the specific sheet by name
+
+                    part_number = df.iloc[8, 5]  # Row 9, Column F
+                    mpn = df.iloc[7, 5]   # Row 8, Column F
+                    description = df.iloc[29, 1]   # Row 30, Column B
+                    dom = df.iloc[6, 1]   # Row 7, Column B
+                    lot_no = df.iloc[6, 5]      # Row 7, Column F
+                    lot_qty = df.iloc[7, 12]      # Row 8, Column M
+                    sg_po = df.iloc[8, 12]      # Row 9, Column M
+                    small_qty = df.iloc[16, 3]      # Row 17, Column D
+                    qty = " "
+
+                    return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
+
+                elif x_number == 'large' or x_number == 'box':
+                    # Assuming we are inside the process_excel() function from the previous code
+                    if f'ใบงาน Agilent_JOB {job_number}.1' in workbook:
+                        df = workbook[f'ใบงาน Agilent_JOB {job_number}.1']  # Access the specific sheet by name
+                    else :
+                        df = workbook[f'ใบงาน Agilent_JOB {job_number}']  # Access the specific sheet by name
+                    
+                    #specific rows and columns
+                    part_number = df.iloc[8, 5]  # Row 9, Column F
+                    mpn = df.iloc[7, 5]   # Row 8, Column F
+                    description = df.iloc[29, 1]   # Row 30, Column B
+                    dom = df.iloc[6, 1]   # Row 7, Column B
+                    lot_no = df.iloc[6, 5]      # Row 7, Column F
+                    lot_qty = df.iloc[7, 12]      # Row 8, Column M
+                    sg_po = df.iloc[8, 12]      # Row 9, Column M
+                    small_qty = df.iloc[16, 3]      # Row 17, Column D
+                    qty = " "
+
+                    return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
+
+                return 0, 0, 0, 0, 0, 0, 0, 0
+
+            except Exception as e:
+                messagebox.showerror("Error", f"Failed to process file:\n{e}")
+                return 0, 0, 0, 0, 0, 0, 0, 0
+
+
+        # Create a helper function to convert images to Base64 strings
         def get_image_b64(filepath):
             try:
                 with open(filepath, "rb") as image_file:
@@ -60,10 +163,9 @@ class agilent(Frame):
                 return ""
 
 
-        def generate_barcode(job_number):
-            # Generate a standard EAN13 barcode
-            # ImageWriter ensures it saves as a standard .png file
-            EAN = barcode.get_barcode_class('ean13')
+        def generate_barcode(part_number):
+            # 1. Get the Code 128 class instead of ean13
+            Code128 = barcode.get_barcode_class('code128')
 
             # Define your custom sizing options
             # module_width: The width of a single barcode line (default is 0.2)
@@ -76,130 +178,357 @@ class agilent(Frame):
                 'font_size': 12,       # Makes the text bigger
                 'quiet_zone': 2.0,      # Reduces the white border around the image
             }
-
-            my_barcode = EAN('123456789012', writer=ImageWriter())
+            # 2. Pass your exact string with the dash!
+            my_barcode = Code128(f'{part_number}', writer=ImageWriter())
 
             # This saves a file named "my_barcode.png" in your folder
-            my_barcode.save(r'D:\vatska\software\barcode_cache\my_barcode', options=my_options)  # Ensure this path exists and is writable
+            my_barcode.save(r'D:\vatska\software\barcode_cache\agilent_barcode', options=my_options)  # Ensure this path exists and is writable
 
-        def generate_small_pdf(barcode_path, job_number):
+        def generate_small_pdf(x_number): # x_number is the number of the sheet, for example sheet x.1 or x.2 to x.5
+
+            part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, x_number)
+            generate_barcode(part_number)  # Generate the barcode for the part number
             # Create a simple HTML template for the PDF
             html_content = f"""
             <!DOCTYPE html>
             <html>
-            <head>
-                <style>
-                    /* This @page rule defines the physical paper size and margins */
+                <head>
+                    <meta charset="utf-8">
+                    <title>Label Layout</title>
+                    <style>
                     @page {{
-                        width: 85mm;
-                        height: 50mm;
-                        margin: 20mm;
-                        background-color: #ffffff;
+                    size: 85mm 50mm; /* Set the exact physical PDF size here */
+                    margin: 0; /* Remove default page margins */
                     }}
+                
                     body {{
-                        font-family: Arial, sans-serif;
-                        color: #333;
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 2mm; /* Use padding inside the body instead of page margins */
                     }}
-                    .header {{
-                        background-color: #2c3e50;
-                        color: white;
-                        padding: 15px;
-                        text-align: center;
-                    }}
-                    .layout-table {{
-                        width: 100%;
-                        margin-top: 20px;
-                    }}
-                    .layout-table td {{
-                        vertical-align: top;
-                        padding: 10px;
-                    }}
-                    .barcode-section {{
-                        text-align: center;
-                        margin-top: 30px;
-                        padding-top: 20px;
-                        border-top: 2px dashed #ccc;
-                    }}
-                </style>
-            </head>
-            <body>
-                <div class="header">
-                    <h1>Product Label</h1>
-                </div>
+                        /* The main outer border matching the image */
+                        .label-container {{
+                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            width: 85mm; /* Adjust width as needed */
+                            height: 50mm; /* Adjust height as needed */
+                            box-sizing: border-box;
+                            position: relative;
+                        }}
 
-                <table class="layout-table">
-                    <tr>
-                        <!-- Left Column: Text Information -->
-                        <td style="width: 60%;">
-                            <h2>Item: Quantum Engine</h2>
-                            <p><strong>SKU:</strong> QX-9920</p>
-                            <p>This layout is completely custom. You can add as much text, lists, or data as you need right here.</p>
-                        </td>
-                        
-                        <!-- Right Column: Logo/Image -->
-                        <td style="width: 40%; text-align: center;">
-                            <img src="{logo_path}" style="max-width: 150px; border: 1px solid #ddd;">
-                        </td>
-                    </tr>
-                </table>
+                        /* The top header text */
+                        .header-text {{
+                            font-size: 10pt;
+                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            margin-bottom: 10px;
+                            font-weight: normal;
+                        }}
 
-                <!-- Bottom Section: The Barcode -->
-                <div class="barcode-section">
-                    <h3>Tracking Barcode</h3>
-                    <img src="{barcode_path}" style="height: 80px;">
-                </div>
-            </body>
+                        /* Table used for perfect vertical alignment of the labels and values */
+                        .data-table {{
+                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            width: 85mm; /* Full width of the label */
+                            border-collapse: collapse;
+                            font-size: 9pt;
+                            margin-bottom: 10px;
+                        }}
+
+                        .data-table td {{
+                            vertical-align: top;
+                        }}
+
+                        /* Set a fixed width for the left column so the right column aligns perfectly */
+                        .label-col {{
+                            width: 25mm; /* Adjust width as needed */
+                        }}
+
+                        /* The barcode placeholder box with the "X" drawn using CSS gradients */
+                        .barcode-placeholder {{
+                            padding-left: 2mm; /* Add some padding to the left for better alignment */
+                            item-align: center;
+                            width: 60mm; /* Adjust width as needed */
+                            height: 11mm; /* Adjust height as needed */
+                            position: absolute;
+                            bottom: 2mm; /* Position it at the bottom of the label */
+                        }}
+                    </style>
+                </head>
+                <body>
+
+                    <div class="label-container">
+                        <!-- Header Text -->
+                        <div class="header-text">A G I L E N T</div>
+
+                        <!-- Data Grid -->
+                        <table class="data-table">
+                            <tr>
+                                <td class="label-col">Part Number:</td>
+                                <td>{part_number}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Description:</td>
+                                <td>{description}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">DOM:</td>
+                                <td>{dom}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">LOT NO:</td>
+                                <td>{lot_no}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">QTY:</td>
+                                <td>{small_qty}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Placeholder Box -->
+                        <div class="barcode-placeholder">
+                            <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\agilent_barcode.png')}" style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                    </div>
+                </body>
             </html>
             """
-            pdf_filename = f"{job_number}_barcode.pdf"
-            HTML(string=html_content).write_pdf("final_output.pdf")
+            HTML(string=html_content).write_pdf(f"ถุงย่อย {job_number}.{x_number}.pdf")
 
-        def generate_large_pdf(barcode_path, job_number):
+        def generate_large_pdf():
+            part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, 'large')
+            generate_barcode(mpn)  # Generate the barcode for the part number
             # Create a simple HTML template for the PDF
             html_content = f"""
+            <!DOCTYPE html>
             <html>
-            <body>
-                <h1>Job Number: {job_number}</h1>
-                <img src="{barcode_path}" alt="Barcode">
-            </body>
+                <head>
+                    <meta charset="utf-8">
+                    <title>Label Layout</title>
+                    <style>
+                    @page {{
+                    size: 85mm 50mm; /* Set the exact physical PDF size here */
+                    margin: 0; /* Remove default page margins */
+                    }}
+                
+                    body {{
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 2mm; /* Use padding inside the body instead of page margins */
+                    }}
+                        /* The main outer border matching the image */
+                        .label-container {{
+                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            width: 85mm; /* Adjust width as needed */
+                            height: 50mm; /* Adjust height as needed */
+                            box-sizing: border-box;
+                            position: relative;
+                        }}
+
+                        /* The top header text */
+                        .header-text {{
+                            font-size: 10pt;
+                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            margin-bottom: 10px;
+                            font-weight: normal;
+                        }}
+
+                        /* Table used for perfect vertical alignment of the labels and values */
+                        .data-table {{
+                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            width: 85mm; /* Full width of the label */
+                            border-collapse: collapse;
+                            font-size: 9pt;
+                            margin-bottom: 10px;
+                        }}
+
+                        .data-table td {{
+                            vertical-align: top;
+                        }}
+
+                        /* Set a fixed width for the left column so the right column aligns perfectly */
+                        .label-col {{
+                            width: 25mm; /* Adjust width as needed */
+                        }}
+
+                        /* The barcode placeholder box with the "X" drawn using CSS gradients */
+                        .barcode-placeholder {{
+                            padding-left: 2mm; /* Add some padding to the left for better alignment */
+                            item-align: center;
+                            width: 60mm; /* Adjust width as needed */
+                            height: 11mm; /* Adjust height as needed */
+                            position: absolute;
+                            bottom: 2mm; /* Position it at the bottom of the label */
+                        }}
+                    </style>
+                </head>
+                <body>
+
+                    <div class="label-container">
+                        <!-- Header Text -->
+                        <div class="header-text">A G I L E N T</div>
+
+                        <!-- Data Grid -->
+                        <table class="data-table">
+                            <tr>
+                                <td class="label-col">Part Number:</td>
+                                <td>{mpn}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Description:</td>
+                                <td>{description}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">DOM:</td>
+                                <td>{dom}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">LOT NO:</td>
+                                <td>{lot_no}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">QTY:</td>
+                                <td>{qty}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Placeholder Box -->
+                        <div class="barcode-placeholder">
+                            <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\agilent_barcode.png')}" style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                    </div>
+                </body>
             </html>
             """
-            pdf_filename = f"{job_number}_barcode.pdf"
-            HTML(string=html_content).write_pdf("final_output_large.pdf")
+            HTML(string=html_content).write_pdf(f"ถุงหลัก {job_number}.pdf")
 
-        def generate_box_pdf(barcode_path, job_number):
+        def generate_box_pdf():
+            part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, 'box')
+            generate_barcode(mpn)  # Generate the barcode for the part number
             # Create a simple HTML template for the PDF
             html_content = f"""
+            <!DOCTYPE html>
             <html>
-            <body>
-                <h1>Job Number: {job_number}</h1>
-                <img src="{barcode_path}" alt="Barcode">
-            </body>
+                <head>
+                    <meta charset="utf-8">
+                    <title>Label Layout</title>
+                    <style>
+                    @page {{
+                    size: 85mm 50mm; /* Set the exact physical PDF size here */
+                    margin: 0; /* Remove default page margins */
+                    }}
+                
+                    body {{
+                    font-family: Arial, sans-serif;
+                    margin: 0;
+                    padding: 2mm; /* Use padding inside the body instead of page margins */
+                    }}
+                        /* The main outer border matching the image */
+                        .label-container {{
+                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            width: 85mm; /* Adjust width as needed */
+                            height: 50mm; /* Adjust height as needed */
+                            box-sizing: border-box;
+                            position: relative;
+                        }}
+
+                        /* The top header text */
+                        .header-text {{
+                            font-size: 10pt;
+                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            margin-bottom: 10px;
+                            font-weight: normal;
+                        }}
+
+                        /* Table used for perfect vertical alignment of the labels and values */
+                        .data-table {{
+                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            width: 85mm; /* Full width of the label */
+                            border-collapse: collapse;
+                            font-size: 9pt;
+                            margin-bottom: 10px;
+                        }}
+
+                        .data-table td {{
+                            vertical-align: top;
+                        }}
+
+                        /* Set a fixed width for the left column so the right column aligns perfectly */
+                        .label-col {{
+                            width: 25mm; /* Adjust width as needed */
+                        }}
+
+                        /* The barcode placeholder box with the "X" drawn using CSS gradients */
+                        .barcode-placeholder {{
+                            padding-left: 2mm; /* Add some padding to the left for better alignment */
+                            item-align: center;
+                            width: 60mm; /* Adjust width as needed */
+                            height: 11mm; /* Adjust height as needed */
+                            position: absolute;
+                            bottom: 2mm; /* Position it at the bottom of the label */
+                        }}
+                    </style>
+                </head>
+                <body>
+
+                    <div class="label-container">
+                        <!-- Header Text -->
+                        <div class="header-text">A G I L E N T</div>
+
+                        <!-- Data Grid -->
+                        <table class="data-table">
+                            <tr>
+                                <td class="label-col">Part Number:</td>
+                                <td>{mpn}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Description:</td>
+                                <td>{description}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">DOM:</td>
+                                <td>{dom}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">LOT NO:</td>
+                                <td>{lot_no}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">LOT QTY:</td>
+                                <td>{lot_qty}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">SG PO:</td>
+                                <td>{sg_po}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">QTY/BOX:</td>
+                                <td>{qty}</td>
+                            </tr>
+                        </table>
+
+                        <!-- Placeholder Box -->
+                        <div class="barcode-placeholder">
+                            <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\agilent_barcode.png')}" style="width: 100%; height: 100%; object-fit: contain;">
+                        </div>
+                    </div>
+                </body>
             </html>
             """
-            pdf_filename = f"{job_number}_barcode.pdf"
-            HTML(string=html_content).write_pdf("final_output_box.pdf")
-
-        def process_excel(filepath, job_number):
-
-            try:
-                # Read the Excel file
-                df = pd.read_excel(filepath)
-                    
-                # Update UI to show success
-                text_preview.delete(1.0, tk.END)
-                text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
-                text_preview.insert(tk.END, "เลือกไฟล์ Excel สำเร็จ!\n\nใช้ปุ่มด้านล่างเพื่อคัดลอกข้อมูลที่ต้องการไปยังคลิปบอร์ด:\n\n")
-
-                
-                
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to process file:\n{e}")
+            HTML(string=html_content).write_pdf(f"กล่อง {job_number}.pdf")
 
         # --- Copy Functions for each button ---
-        def btn_generate_click():
+        def btn_generate_small(job_number, x_number):
             # Here you can define what happens when the "สร้างไฟล์สติกเกอร์" button is clicked
-            messagebox.showinfo("Info", "สร้างไฟล์สติกเกอร์ button clicked!")
+            messagebox.showinfo("Info", f"สร้างไฟล์สติกเกอร์ button clicked! ({job_number}.{x_number})")
+            generate_small_pdf(x_number)  # Call the function to generate the small PDF for the specific sheet
+
+        def btn_generate_large():
+            # Here you can define what happens when the "สร้างไฟล์สติกเกอร์ซองหลัก" button is clicked
+            messagebox.showinfo("Info", "สร้างไฟล์สติกเกอร์ซองหลัก button clicked!")
+            generate_large_pdf()  # Call the function to generate the large PDF
+
+        def btn_generate_box():
+            # Here you can define what happens when the "สร้างไฟล์สติกเกอร์กล่อง" button is clicked
+            messagebox.showinfo("Info", "สร้างไฟล์สติกเกอร์กล่อง button clicked!")
+            generate_box_pdf()  # Call the function to generate the box PDF
 
         # Create the text box 
         text_preview = tk.Text(self, wrap=tk.WORD, width=45, height=10, font=("Consolas", 10))
@@ -210,12 +539,20 @@ class agilent(Frame):
         btn_select.pack(pady=15)
 
         # The 8 Copy Buttons (Disabled by default until a file is loaded)
-        btn_generate_small = Button(self, text="สร้างไฟล์สติกเกอร์ซองย่อย", command=btn_generate_click, state="disabled")
-        btn_generate_small.pack(pady=5)
-        btn_generate_large = Button(self, text="สร้างไฟล์สติกเกอร์ซองหลัก", command=btn_generate_click, state="disabled")
-        btn_generate_large.pack(pady=5)
-        btn_generate_box = Button(self, text="สร้างไฟล์สติกเกอร์กล่อง", command=btn_generate_click, state="disabled")
-        btn_generate_box.pack(pady=5)
+        btn_generate_small_1 = Button(self, text="ซองย่อย x.1", command=lambda: btn_generate_small(job_number, 1), state="disabled")
+        btn_generate_small_1.pack(pady=5)
+        btn_generate_small_2 = Button(self, text="ซองย่อย x.2", command=lambda: btn_generate_small(job_number, 2), state="disabled")
+        btn_generate_small_2.pack(pady=5)
+        btn_generate_small_3 = Button(self, text="ซองย่อย x.3", command=lambda: btn_generate_small(job_number, 3), state="disabled")
+        btn_generate_small_3.pack(pady=5)
+        btn_generate_small_4 = Button(self, text="ซองย่อย x.4", command=lambda: btn_generate_small(job_number, 4), state="disabled")
+        btn_generate_small_4.pack(pady=5)
+        btn_generate_small_5 = Button(self, text="ซองย่อย x.5", command=lambda: btn_generate_small(job_number, 5), state="disabled")
+        btn_generate_small_5.pack(pady=5)
+        btn_generate_large_label = Button(self, text="ซองหลัก", command=btn_generate_large, state="disabled")
+        btn_generate_large_label.pack(pady=5)
+        btn_generate_box_label = Button(self, text="กล่อง", command=btn_generate_box, state="disabled")
+        btn_generate_box_label.pack(pady=5)
 
         # return home button
         btn_home = Button(self, text="กลับหน้าแรก", command=lambda: self.controller.show_frame("welcome_page"))
