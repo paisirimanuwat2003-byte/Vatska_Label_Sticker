@@ -8,8 +8,6 @@ import os
 import barcode
 from barcode.writer import ImageWriter
 from weasyprint import HTML
-import barcode
-from barcode.writer import ImageWriter
 import base64
 
 
@@ -17,17 +15,11 @@ class agilent(Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
-        # Global variables to store the data for our 3 buttons
-        copy_data_1 = ""
-        copy_data_2 = ""
-        copy_data_3 = ""
-        copy_data_4 = ""
-        copy_data_5 = ""
-        copy_data_6 = ""
-        copy_data_7 = ""
-        copy_data_8 = ""
+
+        # Global variables to store the amount of label to be printed
         copy_amount = ""
 
+        # Global variables to store file path and job number
         file_path = ""
         job_number = ""
 
