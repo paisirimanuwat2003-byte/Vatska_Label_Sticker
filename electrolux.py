@@ -149,7 +149,6 @@ class electrolux(Frame):
                         .header-text {{
                             font-size: 10pt;
                             letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
-                            margin-bottom: 10px;
                             font-weight: normal;
                         }}
 
@@ -192,7 +191,7 @@ class electrolux(Frame):
                     <div class="label-container">
                         <!-- Header Text -->
                         <div class="header-text">
-                        <img src = "{get_image_b64(r'./icons/electrolux.jpg')}" style = "width :15mm"  >
+                        <img src = "{get_image_b64(r'./icons/electrolux.png')}" style = "width :15mm"  >
                         </div>
                         <div class="black_line"></div>
                         <!-- Data Grid -->
