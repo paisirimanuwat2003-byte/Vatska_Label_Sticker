@@ -194,11 +194,14 @@ class taat(Frame):
                             height: 0.1mm;
                             background-color: black;
                         }}
+<<<<<<< HEAD
                         /* The barcode placeholder box with the "X" drawn using CSS gradients */
                         .barcode-placeholder {{
                             width: 20mm;
                             height: auto;
                         }}
+=======
+>>>>>>> 38d993cab8989e9d9ef19f4c2689a2e49a1abe7b
                     </style>
                 </head>
                 <body>
