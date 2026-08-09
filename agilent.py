@@ -9,12 +9,20 @@ import barcode
 from barcode.writer import ImageWriter
 from weasyprint import HTML
 import base64
+from PIL import Image, ImageTk
 
 
 class agilent(Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
+
+        # Load the image
+        logo_img = Image.open(r'D:\vatska\software\icons\agilent.png')
+        logo_img = logo_img.resize((120, 50), Image.Resampling.LANCZOS)
+        self.logo_img = ImageTk.PhotoImage(logo_img)
+        logo_label = tk.Label(self, image=self.logo_img, bg='white')
+        logo_label.pack(pady=10)    
 
         # Global variables to store the amount of label to be printed
         copy_amount = ""
@@ -103,26 +111,6 @@ class agilent(Frame):
                     text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
 
                     return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
-
-                # elif f'ใบงาน Agilent_JOB {job_number}' in workbook:
-                #     # Assuming we are inside the process_excel() function from the previous code
-                #     df = workbook[f'ใบงาน Agilent_JOB {job_number}']  # Access the specific sheet by name
-
-                #     part_number = df.iloc[8, 5]  # Row 9, Column F
-                #     mpn = df.iloc[7, 5]   # Row 8, Column F
-                #     description = df.iloc[29, 1]   # Row 30, Column B
-                #     dom = df.iloc[6, 1]   # Row 7, Column B
-                #     lot_no = df.iloc[6, 5]      # Row 7, Column F
-                #     lot_qty = df.iloc[7, 12]      # Row 8, Column M
-                #     sg_po = df.iloc[8, 12]      # Row 9, Column M
-                #     small_qty = df.iloc[16, 3]      # Row 17, Column D
-                #     qty = " "
-
-                #     copy_amount = df.iloc[7, 14] # Row 8, Column N
-
-                #     text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
-
-                #     return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
 
                 elif x_number == 'large' or x_number == 'box':
                     # Assuming we are inside the process_excel() function from the previous code
@@ -538,7 +526,7 @@ class agilent(Frame):
         text_preview.pack(expand=True)
 
         # Select File Button
-        btn_select = Button(self, text="เลือกไฟล์ Excel", command=select_file)
+        btn_select = Button(self, text="เลือก Job order", command=select_file)
         btn_select.pack(pady=15)
 
         # The 8 Copy Buttons (Disabled by default until a file is loaded)

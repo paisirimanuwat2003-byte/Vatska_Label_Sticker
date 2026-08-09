@@ -9,12 +9,19 @@ import barcode
 from weasyprint import HTML
 from barcode.writer import ImageWriter
 import base64
+from PIL import Image, ImageTk
 
 class taat(Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
        
+        logo_img = Image.open(r'D:\vatska\software\icons\stgobain.png')
+        logo_img = logo_img.resize((120, 50), Image.Resampling.LANCZOS)
+        self.logo_img = ImageTk.PhotoImage(logo_img)
+        logo_label = tk.Label(self, image=self.logo_img, bg='white')
+        logo_label.pack(pady=10)
+
         # Global variables to store file path 
         file_path = ""
 
@@ -35,6 +42,7 @@ class taat(Frame):
                 file_path = filepath
 
                 btn_generate_label.config(state = 'normal')
+                btn_generate_box.config(state = 'normal')
                 # Read the workbook
                 workbook = pd.read_excel(filepath, sheet_name=None, header=None)  # Read all sheets into a dictionary of DataFrames and disable header inference
 
@@ -276,12 +284,15 @@ class taat(Frame):
         text_preview.pack(expand=True)
 
         # Select File Button
-        btn_select = Button(self, text="เลือกไฟล์ Excel", command=select_file)
+        btn_select = Button(self, text="เลือก Job order", command=select_file)
         btn_select.pack(pady=15)
 
         # The 8 Copy Buttons (Disabled by default until a file is loaded)
-        btn_generate_label = Button(self, text="สติกเกอร์ TAAT", command=btn_generate_pdf, state="disabled")
+        btn_generate_label = Button(self, text="ซองหลัก", command=btn_generate_pdf, state="disabled")
         btn_generate_label.pack(pady=5)
+
+        btn_generate_box = Button(self, text="กล่อง", command=btn_generate_pdf, state="disabled")
+        btn_generate_box.pack(pady=5)
 
         # return home button
         btn_home = Button(self, text="กลับหน้าแรก", command=lambda: self.controller.show_frame("welcome_page"))

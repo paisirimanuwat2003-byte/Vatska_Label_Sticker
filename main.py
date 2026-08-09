@@ -17,6 +17,9 @@ class excel_data_extractor(tk.Tk):
         # Create the root window using standard tkinter (tk)
         self.title("Excel Data Extractor For Labeling")
 
+        # Configure bg
+        self.configure(bg="blue")
+
         # Setting a minsize is a great idea! It prevents the user from squishing 
         # the window so small that the buttons disappear.
         self.minsize(350, 500) 
@@ -28,12 +31,36 @@ class excel_data_extractor(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         # Load the PNG image file
-        img = tk.PhotoImage(file=r"D:\vatska\software\icons\vatska_icon.png")
+        img = tk.PhotoImage(file=r"D:\vatska\software\icons\cleanroom.png")
 
         self.iconphoto(True, img)  # Ensure you have an icon.png in the same directory
 
         # Create a Style object to handle our button colors
         style = Style()
+
+        # 2. Use the "alt" theme (native Windows/Mac themes often block background overrides)
+        style.theme_use("xpnative")
+
+        # set all the frames to white background
+        style.configure('TFrame', background='white')
+
+        # Configure All TTK Buttons globally
+        style.configure(
+            "TButton",
+            background="white",
+            foreground="black",        # Text color
+            bordercolor="white",       # Makes the outer border white
+            borderwidth=1,             # Flattens the button completely
+            focusthickness=0,          # Removes the inner dotted focus ring
+        )
+
+        # Handle Button States (Hover & Click)
+        style.map(
+            "TButton",
+            # Black borders when clicked or hovered
+            bordercolor=[("pressed", "black"), ("active", "black")],
+            background=[("active", "white"), ("pressed", "#f0f0f0")]
+        )
 
         self.frames = {}
 
