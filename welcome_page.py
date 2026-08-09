@@ -38,62 +38,16 @@ class welcome_page(Frame):
         self.img4 = ImageTk.PhotoImage(raw_img4)
 
         # The 4 job Buttons 
-        btn_copy1 = Button(
-            self,
-            image=self.img1, 
-            command=lambda: self.controller.show_frame("agilent"), 
-            state="normal",
-            )
-        btn_copy1.pack(padx=5, pady=10)
+        btn_copy1 = Button(self, text="Agilent", command=lambda: self.controller.show_frame("agilent"), state="normal")
+        btn_copy1.pack(side=tk.LEFT , padx=5)
 
-        agilent_label = tk.Label(self, text="อาจิแลนท์", font=('Arial', 18), bg='white', fg='black')
-        agilent_label.pack(padx=5)
+        btn_copy2 = Button(self, text="Welco", command=lambda: self.controller.show_frame("welco"), state="normal")
+        btn_copy2.pack(side=tk.LEFT, padx=5)
 
-        btn_copy2 = Button(
-            self,
-            image=self.img2, 
-            command=lambda: self.controller.show_frame("welco"), 
-            state="normal",
-            )
-        btn_copy2.pack(padx=5, pady=10)
+        btn_copy3 = Button(self, text="Electrolux", command=lambda: self.controller.show_frame("electrolux"), state="normal")
+        btn_copy3.pack(side=tk.LEFT, padx=5)
 
-        welco_label = tk.Label(self, text="เวลโก้", font=('Arial', 18), bg='white', fg='black')
-        welco_label.pack(padx=5)
-
-        btn_copy3 = Button(
-            self,
-            image=self.img3, 
-            command=lambda: self.controller.show_frame("electrolux"), 
-            state="normal",
-            )
-        btn_copy3.pack(padx=5, pady=10)
-
-        electrolux_label = tk.Label(self, text="อิเลคโทรลัคซ์", font=('Arial', 18), bg='white', fg='black')
-        electrolux_label.pack(padx=5)
-
-        btn_copy4 = Button(
-            self,
-            image=self.img4, 
-            command=lambda: self.controller.show_frame("taat"), 
-            state="normal",
-            )
-        btn_copy4.pack(padx=5, pady=10)
-
-        taat_label = tk.Label(self, text="เซนต์โกแบง TAAT", font=('Arial', 18), bg='white', fg='black')
-        taat_label.pack(padx=5)
-
-        #Bottom left decor
-        raw_img5 = Image.open(r'D:\vatska\software\icons\cleanroom.png')
-        raw_img5 = raw_img5.resize((50, 50), Image.Resampling.LANCZOS)
-        self.img5 = ImageTk.PhotoImage(raw_img5)
-        # 2. Create a Label to hold the image
-        decor_label = tk.Label(self, image=self.img5, bg='white')
-
-        # Force it exactly to the bottom-left corner
-        decor_label.place(x=0, y=600, anchor=tk.SW)   
-
-        # version label
-        version_label = tk.Label(self, text="Version 1.0", font=('Arial', 8), bg='white', fg='black')    
-        version_label.pack(side="bottom",anchor="se")
+        btn_copy4 = Button(self, text="TAAT", command=lambda: self.controller.show_frame("taat"), state="normal")
+        btn_copy4.pack(side=tk.LEFT, padx=5)
 
 

@@ -20,6 +20,9 @@ class excel_data_extractor(tk.Tk):
         # Configure bg
         self.configure(bg="blue")
 
+        # Configure bg
+        self.configure(bg="blue")
+
         # Setting a minsize is a great idea! It prevents the user from squishing 
         # the window so small that the buttons disappear.
         self.minsize(350, 500) 
