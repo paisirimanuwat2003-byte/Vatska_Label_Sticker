@@ -172,6 +172,11 @@ class electrolux(Frame):
                             position: absolute;
                             bottom: 2mm; /* Position it at the bottom of the label */
                         }}
+                        .black_line {{
+                            width: 75mm;
+                            height: 0.1mm;
+                            background-color: black;
+                        }}
                     </style>
                 </head>
                 <body>
@@ -181,6 +186,7 @@ class electrolux(Frame):
                         <div class="header-text">
                         <img src = "{get_image_b64(r'./icons/electrolux.jpg')}" style = "width :21mm"  >
                         </div>
+                        <div class="black_line"></div>
                         <!-- Data Grid -->
                         <table class="data-table">
                             <tr>
@@ -208,7 +214,7 @@ class electrolux(Frame):
                                 <td>{po_no}</td>
                             </tr>
                         </table>
-
+                        <div class="black_line"></div>
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
                             <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\electrolux_barcode.png')}" style="width: 100%; height: 100%; object-fit: contain;">

@@ -189,15 +189,20 @@ class taat(Frame):
                             position: absolute;
                             right: 10mm;
                         }}
+                        .black_line {{
+                            width: 75mm;
+                            height: 0.1mm;
+                            background-color: black;
+                        }}
                     </style>
                 </head>
                 <body>
-
                     <div class="label-container">
                         <!-- Header Text -->
                         <div class="header-text">
                         <img src = "{get_image_b64(r'./icons/Saint-Gobain-Emblem.png')}" style = "width :15mm"  >
                         </div>
+                        <div class="black_line"></div>
                         <!-- Data Grid -->
                         <table class="data-table">
                             <tr>
@@ -224,6 +229,10 @@ class taat(Frame):
                                 <td class="label-col">Date of Exp:</td>
                                 <td>{date_exp}</td>
                             </tr>
+                        </table>
+                        <div class="black_line"></div>
+                        <!-- second data grid -->
+                        <table class="data-table">
                             <tr>
                                 <td class="label-col1">Manufactured by:</td>
                                 <td class="label-col2">Serial Number N/A</td>
