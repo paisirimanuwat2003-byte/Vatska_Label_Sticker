@@ -17,15 +17,6 @@ class excel_data_extractor(tk.Tk):
         # Create the root window using standard tkinter (tk)
         self.title("ระบบพิมพ์สติกเกอร์")
 
-        # Configure bg
-        self.configure(bg="blue")
-<<<<<<< HEAD
-=======
-
-        # Configure bg
-        self.configure(bg="blue")
->>>>>>> 2edd8ece36bc059fc242aa4648ddb8c122c967a8
-
         # Setting a minsize is a great idea! It prevents the user from squishing 
         # the window so small that the buttons disappear.
         self.minsize(350, 500) 
