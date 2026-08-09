@@ -377,7 +377,7 @@ root.iconphoto(True, img)  # Ensure you have an icon.png in the same directory
 scrollbar = tk.Scrollbar(root)
 
 # Select File Button
-btn_select = tk.Button(root, text="เลือกไฟล์ Excel", command=select_file, bg="lightblue")
+btn_select = tk.Button(root, text="เลือก Job order", command=select_file, bg="lightblue")
 btn_select.pack(pady=15)
 
 # --- THE SCROLLBAR FIX ---

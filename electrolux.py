@@ -9,12 +9,20 @@ import barcode
 from weasyprint import HTML
 from barcode.writer import ImageWriter
 import base64
+from PIL import Image, ImageTk
 
 class electrolux(Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
        
+        # Load the image
+        logo_img = Image.open(r'D:\vatska\software\icons\electrolux.jpg')
+        logo_img = logo_img.resize((120, 50), Image.Resampling.LANCZOS)
+        self.logo_img = ImageTk.PhotoImage(logo_img)
+        logo_label = tk.Label(self, image=self.logo_img, bg='white')
+        logo_label.pack(pady=10)    
+
         # Global variables to store file path 
         file_path = ""
 
@@ -236,11 +244,11 @@ class electrolux(Frame):
         text_preview.pack(expand=True)
 
         # Select File Button
-        btn_select = Button(self, text="เลือกไฟล์ Excel", command=select_file)
+        btn_select = Button(self, text="เลือก Job order", command=select_file)
         btn_select.pack(pady=15)
 
         # The 8 Copy Buttons (Disabled by default until a file is loaded)
-        btn_generate_label = Button(self, text="สติกเกอร์ Electrolux", command=btn_generate_pdf, state="disabled")
+        btn_generate_label = Button(self, text="ซองหลัก", command=btn_generate_pdf, state="disabled")
         btn_generate_label.pack(pady=5)
 
         # return home button
