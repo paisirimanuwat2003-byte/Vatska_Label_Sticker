@@ -189,15 +189,25 @@ class taat(Frame):
                             position: absolute;
                             right: 10mm;
                         }}
+                        .black_line {{
+                            width: 75mm;
+                            height: 0.1mm;
+                            background-color: black;
+                        }}
+                        /* The barcode placeholder box with the "X" drawn using CSS gradients */
+                        .barcode-placeholder {{
+                            width: 20mm;
+                            height: auto;
+                        }}
                     </style>
                 </head>
                 <body>
-
                     <div class="label-container">
                         <!-- Header Text -->
                         <div class="header-text">
                         <img src = "{get_image_b64(r'./icons/Saint-Gobain-Emblem.png')}" style = "width :15mm"  >
                         </div>
+                        <div class="black_line"></div>
                         <!-- Data Grid -->
                         <table class="data-table">
                             <tr>
@@ -224,21 +234,26 @@ class taat(Frame):
                                 <td class="label-col">Date of Exp:</td>
                                 <td>{date_exp}</td>
                             </tr>
+                        </table>
+                        <div class="black_line"></div>
+                        <!-- second data grid -->
+                        <table class="data-table">
                             <tr>
                                 <td class="label-col1">Manufactured by:</td>
-                                <td class="label-col2">Serial Number N/A</td>
+                                <td class="label-col2">
+                                    <div class="barcode-placeholder">
+                                        <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\taat_barcode.png')}" style = "width: 25mm; height: 10mm;">
+                                    </div>
+                                </td>   
                             </tr>
                             <tr>
                                 <td class="label-col1">Saint-Gobain Sekurit (Thailand) Co.,Ltd</td>
-                                <td class="label-col2">Cust P/N: N/A</td>
                             </tr>
                             <tr>
                                 <td class="label-col1">64/47 Moo 4 Eastern Seaboard Industrial Estate</td>
-                                <td class="label-col2">Cust Rev: N/A</td>
                             </tr>
                             <tr>
                                 <td class="label-col1">T.Pluakdaeng. A.Pluakdaeng Rayong 21140 Thailand</td>
-                                <td class="label-col2"></td>
                             </tr>
                         </table>
                     </div>
