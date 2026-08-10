@@ -100,7 +100,7 @@ class agilent(Frame):
                     part_number = df.iloc[8, 5]  # Row 9, Column F
                     mpn = df.iloc[7, 5]   # Row 8, Column F
                     description = df.iloc[29, 1]   # Row 30, Column B
-                    dom = df.iloc[6, 1]   # Row 7, Column B
+                    dom = df.iloc[6, 1].strftime('%d-%b-%Y')   # Row 7, Column B
                     lot_no = df.iloc[6, 5]      # Row 7, Column F
                     lot_qty = df.iloc[7, 12]      # Row 8, Column M
                     sg_po = df.iloc[8, 12]      # Row 9, Column M
@@ -124,7 +124,7 @@ class agilent(Frame):
                     part_number = df.iloc[8, 5]  # Row 9, Column F
                     mpn = df.iloc[7, 5]   # Row 8, Column F
                     description = df.iloc[29, 1]   # Row 30, Column B
-                    dom = df.iloc[6, 1]   # Row 7, Column B
+                    dom = df.iloc[6, 1].strftime('%d-%b-%Y')   # Row 7, Column B
                     lot_no = df.iloc[6, 5]      # Row 7, Column F
                     lot_qty = df.iloc[7, 12]      # Row 8, Column M
                     sg_po = df.iloc[8, 12]      # Row 9, Column M
@@ -194,9 +194,10 @@ class agilent(Frame):
                     }}
                 
                     body {{
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 2mm; /* Use padding inside the body instead of page margins */
+                        font-family: 'Bahnschrift', sans-serif;
+                        font-variation-settings: 'wght' 25;
+                        margin: 0;
+                        padding: 2mm; /* Use padding inside the body instead of page margins */
                     }}
                         /* The main outer border matching the image */
                         .label-container {{
@@ -210,9 +211,10 @@ class agilent(Frame):
                         /* The top header text */
                         .header-text {{
                             font-size: 10pt;
-                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            letter-spacing: 0.5mm; /* Matches the spaced-out 'a s d f v d' look */
                             margin-bottom: 10px;
                             font-weight: normal;
+                            margin-top: 10px;
                         }}
 
                         /* Table used for perfect vertical alignment of the labels and values */
@@ -221,7 +223,6 @@ class agilent(Frame):
                             width: 85mm; /* Full width of the label */
                             border-collapse: collapse;
                             font-size: 9pt;
-                            margin-bottom: 10px;
                         }}
 
                         .data-table td {{
@@ -240,7 +241,7 @@ class agilent(Frame):
                             width: 60mm; /* Adjust width as needed */
                             height: 11mm; /* Adjust height as needed */
                             position: absolute;
-                            bottom: 2mm; /* Position it at the bottom of the label */
+                            bottom: 5mm; /* Position it at the bottom of the label */
                         }}
                     </style>
                 </head>
@@ -301,9 +302,10 @@ class agilent(Frame):
                     }}
                 
                     body {{
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 2mm; /* Use padding inside the body instead of page margins */
+                        font-family: 'Bahnschrift', sans-serif;
+                        font-variation-settings: 'wght' 25;
+                        margin: 0;
+                        padding: 2mm; /* Use padding inside the body instead of page margins */
                     }}
                         /* The main outer border matching the image */
                         .label-container {{
@@ -317,9 +319,10 @@ class agilent(Frame):
                         /* The top header text */
                         .header-text {{
                             font-size: 10pt;
-                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            letter-spacing: 0.5mm; /* Matches the spaced-out 'a s d f v d' look */
                             margin-bottom: 10px;
                             font-weight: normal;
+                            margin-top: 10px;
                         }}
 
                         /* Table used for perfect vertical alignment of the labels and values */
@@ -328,7 +331,6 @@ class agilent(Frame):
                             width: 85mm; /* Full width of the label */
                             border-collapse: collapse;
                             font-size: 9pt;
-                            margin-bottom: 10px;
                         }}
 
                         .data-table td {{
@@ -347,7 +349,7 @@ class agilent(Frame):
                             width: 60mm; /* Adjust width as needed */
                             height: 11mm; /* Adjust height as needed */
                             position: absolute;
-                            bottom: 2mm; /* Position it at the bottom of the label */
+                            bottom: 5mm; /* Position it at the bottom of the label */
                         }}
                     </style>
                 </head>
@@ -408,9 +410,10 @@ class agilent(Frame):
                     }}
                 
                     body {{
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 2mm; /* Use padding inside the body instead of page margins */
+                        font-family: 'Bahnschrift', sans-serif;
+                        font-variation-settings: 'wght' 25;
+                        margin: 0;
+                        padding: 2mm; /* Use padding inside the body instead of page margins */
                     }}
                         /* The main outer border matching the image */
                         .label-container {{
@@ -424,18 +427,18 @@ class agilent(Frame):
                         /* The top header text */
                         .header-text {{
                             font-size: 26pt;
-                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            letter-spacing: 0.5mm; /* Matches the spaced-out 'a s d f v d' look */
                             margin-bottom: 10px;
+                            margin-top: 10px;
                             font-weight: normal;
                         }}
 
                         /* Table used for perfect vertical alignment of the labels and values */
                         .data-table {{
                             padding-left: 5mm; /* Add some padding to the left for better alignment */
-                            width: 85mm; /* Full width of the label */
+                            width: 150mm; /* Full width of the label */
                             border-collapse: collapse;
                             font-size: 16pt;
-                            margin-bottom: 10px;
                         }}
 
                         .data-table td {{
@@ -444,7 +447,7 @@ class agilent(Frame):
 
                         /* Set a fixed width for the left column so the right column aligns perfectly */
                         .label-col {{
-                            width: 25mm; /* Adjust width as needed */
+                            width: 50mm; /* Adjust width as needed */
                         }}
 
                         /* The barcode placeholder box with the "X" drawn using CSS gradients */
@@ -454,7 +457,7 @@ class agilent(Frame):
                             width: 100mm; /* Adjust width as needed */
                             height: 20mm; /* Adjust height as needed */
                             position: absolute;
-                            bottom: 2mm; /* Position it at the bottom of the label */
+                            bottom: 7mm; /* Position it at the bottom of the label */
                         }}
                     </style>
                 </head>

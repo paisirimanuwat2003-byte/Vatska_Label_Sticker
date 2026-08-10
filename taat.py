@@ -76,13 +76,13 @@ class taat(Frame):
                     pd_date = pd.to_datetime(raw_date)
 
                     # 2. Convert to your desired string format
-                    date_mfg = pd_date.strftime("%d/%m/%Y") # Example: 27/04/2024
+                    date_mfg = pd_date.strftime("%d-%b-%Y") # Example: 27/04/2024
 
                     # 3. Convert to a date object (so Python knows how to add years)
                     date_exp = pd_date.date() + pd.DateOffset(years=2)
 
                     # 4. Convert the result back to a string for the PDF
-                    date_exp = date_exp.strftime("%d/%m/%Y") # Example: 27/04/2026
+                    date_exp = date_exp.strftime("%d-%b-%Y") # Example: 27/04/2026
 
                     copy_amount = df.iloc[9, 7] # Row 10, Column H
 
@@ -146,9 +146,10 @@ class taat(Frame):
                     }}
                 
                     body {{
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 2mm; /* Use padding inside the body instead of page margins */
+                        font-family: 'Bahnschrift', sans-serif;
+                        font-variation-settings: 'wght' 25;
+                        margin: 0;
+                        padding: 2mm; /* Use padding inside the body instead of page margins */
                     }}
                         /* The main outer border matching the image */
                         .label-container {{
@@ -162,7 +163,7 @@ class taat(Frame):
                         /* The top header text */
                         .header-text {{
                             font-size: 10pt;
-                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            letter-spacing: 0.5mm; /* Matches the spaced-out 'a s d f v d' look */
                             font-weight: normal;
                         }}
 

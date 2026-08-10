@@ -68,7 +68,7 @@ class electrolux(Frame):
                     product_desc = df.iloc[28, 2]  # Row 29, Column B
                     lot_no = df.iloc[6,5] # Row 7, Column F
                     qty = df.iloc[15, 4]  # Row 16, Column D
-                    date_mfg = df.iloc[6, 2] # Row 7, Column C
+                    date_mfg = df.iloc[6, 2].strftime('%d-%b-%Y') # Row 7, Column C
                     po_no = df.iloc[8, 13] # Row 9, Column N
 
                     copy_amount = df.iloc[7, 13] # Row 8, Column N
@@ -133,9 +133,10 @@ class electrolux(Frame):
                     }}
                 
                     body {{
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 2mm; /* Use padding inside the body instead of page margins */
+                        font-family: 'Bahnschrift', sans-serif;
+                        font-variation-settings: 'wght' 25;
+                        margin: 0;
+                        padding: 2mm; /* Use padding inside the body instead of page margins */
                     }}
                         /* The main outer border matching the image */
                         .label-container {{
@@ -149,7 +150,7 @@ class electrolux(Frame):
                         /* The top header text */
                         .header-text {{
                             font-size: 10pt;
-                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            letter-spacing: 0.5mm; /* Matches the spaced-out 'a s d f v d' look */
                             font-weight: normal;
                         }}
 

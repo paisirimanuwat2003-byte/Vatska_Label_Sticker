@@ -66,12 +66,12 @@ class welco(Frame):
                     # Assuming we are inside the process_excel() function from the previous code
                     df = workbook[f'A1_ใบสั่งงาน']  # Access the specific sheet by name
 
-                    model = df.iloc[3, 7]  # Row 4, Column H
+                    model = df.iloc[2, 7]  # Row 3, Column H
                     tube_size = df.iloc[10, 1]  # Row 11, Column B
                     assy_oal = df.iloc[6, 7] # Row 7, Column H
                     tube_mat = df.iloc[9, 1] # Row 10, Column B
-                    assy_job_no = df.iloc[5, 2] # Row 7, Column C
-                    mfg_date = df.iloc[4, 7] # Row 5, Column H
+                    assy_job_no = df.iloc[5, 1]+str(df.iloc[5, 2]) # Row 6, Column B to C
+                    mfg_date = df.iloc[4, 7].strftime('%d-%b-%Y') # Row 5, Column H
                     pack_qty = 10 # always 10
                     part_no = df.iloc[2, 7] # Row 3, Column H   
 
@@ -137,9 +137,10 @@ class welco(Frame):
                     }}
                 
                     body {{
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 2mm; /* Use padding inside the body instead of page margins */
+                        font-family: 'Bahnschrift', sans-serif;
+                        font-variation-settings: 'wght' 25;
+                        margin: 0;
+                        padding: 2mm; /* Use padding inside the body instead of page margins */
                     }}
                         /* The main outer border matching the image */
                         .label-container {{
@@ -153,7 +154,7 @@ class welco(Frame):
                         /* The top header text */
                         .header-text {{
                             font-size: 10pt;
-                            letter-spacing: 4px; /* Matches the spaced-out 'a s d f v d' look */
+                            letter-spacing: 0.5mm; /* Matches the spaced-out 'a s d f v d' look */
                             margin-bottom: 10px;
                             font-weight: normal;
                         }}
