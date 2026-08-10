@@ -118,7 +118,7 @@ class welco(Frame):
             my_barcode = Code128(f'{part_number}', writer=ImageWriter())
 
             # This saves a file named "my_barcode.png" in your folder
-            my_barcode.save(resource_path('barcode_cache\\welco_barcode'), options=my_options)  # Ensure this path exists and is writable
+            my_barcode.save(get_save_path('welco_barcode','welco_barcode'), options=my_options)  # Ensure this path exists and is writable
 
         def generate_pdf():
             model, tube_size, assy_oal, tube_mat, assy_job_no, mfg_date, pack_qty, part_no = process_excel(file_path)
@@ -227,7 +227,7 @@ class welco(Frame):
 
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(resource_path('barcode_cache\welco_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(get_save_path('welco_barcode.png','welco_barcode'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>

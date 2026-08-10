@@ -127,7 +127,7 @@ class taat(Frame):
             my_barcode = Code128(f'{part_number}', writer=ImageWriter())
 
             # This saves a file named "my_barcode.png" in your folder
-            my_barcode.save(resource_path('barcode_cache\\TAAT_barcode'), options=my_options)  # Ensure this path exists and is writable
+            my_barcode.save(get_save_path('TAAT_barcode','TAAT_barcode'), options=my_options)  # Ensure this path exists and is writable
 
         def generate_pdf():
             product_code, product_desc, lot_no, qty, date_mfg, date_exp = process_excel(file_path)
@@ -251,7 +251,7 @@ class taat(Frame):
                                 <td class="label-col1">Manufactured by:</td>
                                 <td class="label-col2">
                                     <div class="barcode-placeholder">
-                                        <img src="{get_image_b64(resource_path('barcode_cache\\TAAT_barcode.png'))}" style = "width: 25mm; height: 10mm;">
+                                        <img src="{get_image_b64(get_save_path('TAAT_barcode.png','TAAT_barcode'))}" style = "width: 25mm; height: 10mm;">
                                     </div>
                                 </td>   
                             </tr>

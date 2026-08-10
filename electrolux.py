@@ -18,7 +18,7 @@ class electrolux(Frame):
         self.controller = controller
        
         # Load the image
-        logo_img = Image.open(resource_path('icons\electrolux.png'))
+        logo_img = Image.open(resource_path('icons\electrolux.jpg'))
         logo_img = logo_img.resize((120, 50), Image.Resampling.LANCZOS)
         self.logo_img = ImageTk.PhotoImage(logo_img)
         logo_label = tk.Label(self, image=self.logo_img, bg='white')
@@ -114,7 +114,7 @@ class electrolux(Frame):
             my_barcode = Code128(f'{part_number}', writer=ImageWriter())
 
             # This saves a file named "my_barcode.png" in your folder
-            my_barcode.save(resource_path('barcode_cache\electrolux_barcode'), options=my_options)  # Ensure this path exists and is writable
+            my_barcode.save(get_save_path('electrolux_barcode','electrolux_barcode'), options=my_options)  # Ensure this path exists and is writable
 
         def generate_pdf():
             product_code, product_desc, lot_no, qty, date_mfg, po_no = process_excel(file_path)
@@ -225,7 +225,7 @@ class electrolux(Frame):
                         <div class="black_line"></div>
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(resource_path('barcode_cache\electrolux_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(get_save_path('electrolux_barcode.png','electrolux_barcode'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>

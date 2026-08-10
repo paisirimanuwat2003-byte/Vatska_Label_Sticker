@@ -174,7 +174,7 @@ class agilent(Frame):
             my_barcode = Code128(f'{part_number}', writer=ImageWriter())
 
             # This saves a file named "my_barcode.png" in your folder
-            my_barcode.save(resource_path('barcode_cache\\agilent_barcode'), options=my_options)  # Ensure this path exists and is writable
+            my_barcode.save(get_save_path('agilent_barcode','agilent_barcode'), options=my_options)  # Ensure this path exists and is writable
 
         def generate_small_pdf(x_number): # x_number is the number of the sheet, for example sheet x.1 or x.2 to x.5
 
@@ -276,7 +276,7 @@ class agilent(Frame):
 
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(resource_path('barcode_cache\\agilent_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(get_save_path('agilent_barcode.png','agilent_barcode'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>
@@ -383,7 +383,7 @@ class agilent(Frame):
 
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(resource_path('barcode_cache\\agilent_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(get_save_path('agilent_barcode.png','agilent_barcode'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>
@@ -498,7 +498,7 @@ class agilent(Frame):
 
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(resource_path('barcode_cache\\agilent_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(get_save_path('agilent_barcode.png','agilent_barcode'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>
