@@ -10,13 +10,14 @@ from weasyprint import HTML
 from barcode.writer import ImageWriter
 import base64
 from PIL import Image, ImageTk
+from utils import resource_path, get_save_path
 
 class taat(Frame):
     def __init__(self, parent, controller):
         super().__init__(parent)
         self.controller = controller
        
-        logo_img = Image.open(r'D:\vatska\software\icons\stgobain.png')
+        logo_img = Image.open(resource_path('icons\\stgobain.png'))
         logo_img = logo_img.resize((120, 50), Image.Resampling.LANCZOS)
         self.logo_img = ImageTk.PhotoImage(logo_img)
         logo_label = tk.Label(self, image=self.logo_img, bg='white')
@@ -126,7 +127,7 @@ class taat(Frame):
             my_barcode = Code128(f'{part_number}', writer=ImageWriter())
 
             # This saves a file named "my_barcode.png" in your folder
-            my_barcode.save(r'D:\vatska\software\barcode_cache\TAAT_barcode', options=my_options)  # Ensure this path exists and is writable
+            my_barcode.save(resource_path('barcode_cache\\TAAT_barcode'), options=my_options)  # Ensure this path exists and is writable
 
         def generate_pdf():
             product_code, product_desc, lot_no, qty, date_mfg, date_exp = process_excel(file_path)
@@ -202,21 +203,18 @@ class taat(Frame):
                             height: 0.1mm;
                             background-color: black;
                         }}
-<<<<<<< HEAD
                         /* The barcode placeholder box with the "X" drawn using CSS gradients */
                         .barcode-placeholder {{
                             width: 20mm;
                             height: auto;
                         }}
-=======
->>>>>>> 38d993cab8989e9d9ef19f4c2689a2e49a1abe7b
                     </style>
                 </head>
                 <body>
                     <div class="label-container">
                         <!-- Header Text -->
                         <div class="header-text">
-                        <img src = "{get_image_b64(r'./icons/Saint-Gobain-Emblem.png')}" style = "width :15mm"  >
+                        <img src = "{get_image_b64(resource_path('icons\\Saint-Gobain-Emblem.png'))}" style = "width :15mm"  >
                         </div>
                         <div class="black_line"></div>
                         <!-- Data Grid -->
@@ -253,7 +251,7 @@ class taat(Frame):
                                 <td class="label-col1">Manufactured by:</td>
                                 <td class="label-col2">
                                     <div class="barcode-placeholder">
-                                        <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\taat_barcode.png')}" style = "width: 25mm; height: 10mm;">
+                                        <img src="{get_image_b64(resource_path('barcode_cache\\TAAT_barcode.png'))}" style = "width: 25mm; height: 10mm;">
                                     </div>
                                 </td>   
                             </tr>
@@ -271,7 +269,7 @@ class taat(Frame):
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(f"TAAT.pdf")
+            HTML(string=html_content).write_pdf(get_save_path(f"TAAT.pdf", 'taat'))
 
         # --- Copy Functions for each button ---
         def btn_generate_pdf():

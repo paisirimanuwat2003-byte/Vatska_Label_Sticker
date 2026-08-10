@@ -10,6 +10,7 @@ from barcode.writer import ImageWriter
 from weasyprint import HTML
 import base64
 from PIL import Image, ImageTk
+from utils import resource_path, get_save_path
 
 
 class agilent(Frame):
@@ -18,7 +19,7 @@ class agilent(Frame):
         self.controller = controller
 
         # Load the image
-        logo_img = Image.open(r'D:\vatska\software\icons\agilent.png')
+        logo_img = Image.open(resource_path('icons\\agilent.png'))
         logo_img = logo_img.resize((120, 50), Image.Resampling.LANCZOS)
         self.logo_img = ImageTk.PhotoImage(logo_img)
         logo_label = tk.Label(self, image=self.logo_img, bg='white')
@@ -173,7 +174,7 @@ class agilent(Frame):
             my_barcode = Code128(f'{part_number}', writer=ImageWriter())
 
             # This saves a file named "my_barcode.png" in your folder
-            my_barcode.save(r'D:\vatska\software\barcode_cache\agilent_barcode', options=my_options)  # Ensure this path exists and is writable
+            my_barcode.save(resource_path('barcode_cache\\agilent_barcode'), options=my_options)  # Ensure this path exists and is writable
 
         def generate_small_pdf(x_number): # x_number is the number of the sheet, for example sheet x.1 or x.2 to x.5
 
@@ -275,13 +276,13 @@ class agilent(Frame):
 
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\agilent_barcode.png')}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(resource_path('barcode_cache\\agilent_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(f"ถุงย่อย {job_number}.{x_number}.pdf")
+            HTML(string=html_content).write_pdf(get_save_path(f"ถุงย่อย {job_number}.{x_number}.pdf", 'agilent'))
 
         def generate_large_pdf():
             part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, 'large')
@@ -382,13 +383,13 @@ class agilent(Frame):
 
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\agilent_barcode.png')}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(resource_path('barcode_cache\\agilent_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(f"ถุงหลัก {job_number}.pdf")
+            HTML(string=html_content).write_pdf(get_save_path(f"ถุงหลัก {job_number}.pdf", 'agilent'))
 
         def generate_box_pdf():
             part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, 'box')
@@ -497,13 +498,13 @@ class agilent(Frame):
 
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\agilent_barcode.png')}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(resource_path('barcode_cache\\agilent_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(f"กล่อง {job_number}.pdf")
+            HTML(string=html_content).write_pdf(get_save_path(f"กล่อง {job_number}.pdf", 'agilent'))
 
         # --- Copy Functions for each button ---
         def btn_generate_small(job_number, x_number):

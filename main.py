@@ -6,6 +6,7 @@ from agilent import agilent
 from welco import welco
 from taat import taat
 from electrolux import electrolux
+from utils import resource_path
 
 class excel_data_extractor(tk.Tk):
     def __init__(self):
@@ -28,7 +29,7 @@ class excel_data_extractor(tk.Tk):
         container.grid_columnconfigure(0, weight=1)
 
         # Load the PNG image file
-        img = tk.PhotoImage(file=r"D:\vatska\software\icons\cleanroom.png")
+        img = tk.PhotoImage(file=resource_path('icons\\cleanroom.png'))
 
         self.iconphoto(True, img)  # Ensure you have an icon.png in the same directory
 

@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter.ttk import *
 from PIL import Image, ImageTk
+from utils import resource_path
 
 
 class welcome_page(Frame):
@@ -17,23 +18,23 @@ class welcome_page(Frame):
         # 1. LOAD THE IMAGE
         # -----------------------------------------
         #agilent
-        raw_img1 = Image.open(r'D:\vatska\software\icons\agilent.png')
+        raw_img1 = Image.open(resource_path('icons\\agilent.png'))
         # 2. Resize it (e.g., 50x50 pixels) using high-quality resampling
         raw_img1 = raw_img1.resize((120, 50), Image.Resampling.LANCZOS)
         self.img1 = ImageTk.PhotoImage(raw_img1)
 
         #welco
-        raw_img2 = Image.open(r'D:\vatska\software\icons\welco.png')
+        raw_img2 = Image.open(resource_path('icons\\welco.png'))
         raw_img2 = raw_img2.resize((120, 50), Image.Resampling.LANCZOS)
         self.img2 = ImageTk.PhotoImage(raw_img2)
 
         #electrolux
-        raw_img3 = Image.open(r'D:\vatska\software\icons\electrolux.jpg')
+        raw_img3 = Image.open(resource_path('icons\\electrolux.jpg'))
         raw_img3 = raw_img3.resize((120, 50), Image.Resampling.LANCZOS)
         self.img3 = ImageTk.PhotoImage(raw_img3)
 
         #taat
-        raw_img4 = Image.open(r'D:\vatska\software\icons\stgobain.png')
+        raw_img4 = Image.open(resource_path('icons\\stgobain.png'))
         raw_img4 = raw_img4.resize((120, 50), Image.Resampling.LANCZOS)
         self.img4 = ImageTk.PhotoImage(raw_img4)
 
@@ -83,7 +84,7 @@ class welcome_page(Frame):
         taat_label.pack(padx=5)
 
         #Bottom left decor
-        raw_img5 = Image.open(r'D:\vatska\software\icons\cleanroom.png')
+        raw_img5 = Image.open(resource_path('icons\\cleanroom.png'))
         raw_img5 = raw_img5.resize((50, 50), Image.Resampling.LANCZOS)
         self.img5 = ImageTk.PhotoImage(raw_img5)
         # 2. Create a Label to hold the image

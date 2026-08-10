@@ -10,6 +10,7 @@ from weasyprint import HTML
 from barcode.writer import ImageWriter
 import base64
 from PIL import Image, ImageTk
+from utils import resource_path, get_save_path
 
 
 class welco(Frame):
@@ -17,7 +18,7 @@ class welco(Frame):
         super().__init__(parent)
         self.controller = controller
 
-        logo_img = Image.open(r'D:\vatska\software\icons\welco.png')
+        logo_img = Image.open(resource_path('icons\\welco.png'))
         logo_img = logo_img.resize((120, 50), Image.Resampling.LANCZOS)
         self.logo_img = ImageTk.PhotoImage(logo_img)
         logo_label = tk.Label(self, image=self.logo_img, bg='white')
@@ -117,7 +118,7 @@ class welco(Frame):
             my_barcode = Code128(f'{part_number}', writer=ImageWriter())
 
             # This saves a file named "my_barcode.png" in your folder
-            my_barcode.save(r'D:\vatska\software\barcode_cache\welco_barcode', options=my_options)  # Ensure this path exists and is writable
+            my_barcode.save(resource_path('barcode_cache\\welco_barcode'), options=my_options)  # Ensure this path exists and is writable
 
         def generate_pdf():
             model, tube_size, assy_oal, tube_mat, assy_job_no, mfg_date, pack_qty, part_no = process_excel(file_path)
@@ -226,13 +227,13 @@ class welco(Frame):
 
                         <!-- Placeholder Box -->
                         <div class="barcode-placeholder">
-                            <img src="{get_image_b64(r'D:\vatska\software\barcode_cache\welco_barcode.png')}" style="width: 100%; height: 100%; object-fit: contain;">
+                            <img src="{get_image_b64(resource_path('barcode_cache\welco_barcode.png'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
                     </div>
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(f"Welco.pdf")
+            HTML(string=html_content).write_pdf(get_save_path(f"Welco.pdf", 'welco'))
 
         # --- Copy Functions for each button ---
         def btn_generate_pdf():
