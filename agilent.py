@@ -267,7 +267,7 @@ class agilent(Frame):
                                 <td>{part_number}</td>
                             </tr>
                             <tr>
-                                <td class="label-col">MPN:</td>
+                                <td class="label-col">Model:</td>
                                 <td>{model_pn}</td>
                             </tr>
                             <tr>
