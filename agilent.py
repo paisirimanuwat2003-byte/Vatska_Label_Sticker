@@ -27,6 +27,7 @@ class agilent(Frame):
 
         # Global variables to store the amount of label to be printed
         copy_amount = ""
+        big_bag_count = ""
 
         # Global variables to store file path and job number
         file_path = ""
@@ -49,14 +50,18 @@ class agilent(Frame):
                 text_preview.delete(1.0, tk.END)
                 text_preview.insert(tk.END, f"Loading: {file_name}\n...")
 
-                nonlocal file_path, job_number
-                file_path = filepath
-                job_number = jobNumber
-
                 btn_generate_large_label.config(state = 'normal')
                 btn_generate_box_label.config(state = 'normal')
                 # Read the workbook
                 workbook = pd.read_excel(filepath, sheet_name=None, header=None)  # Read all sheets into a dictionary of DataFrames and disable header inference
+
+                big_count = len(pd.ExcelFile(filepath).sheet_names)-2
+
+                nonlocal file_path, job_number, big_bag_count
+                file_path = filepath
+                job_number = jobNumber
+                big_bag_count = big_count
+
                 for i in range(1,6):
                     if f'ใบงาน Agilent_JOB {job_number}.{i}' in workbook:
                         if i == 1:
@@ -99,19 +104,19 @@ class agilent(Frame):
 
                     part_number = df.iloc[8, 5]  # Row 9, Column F
                     mpn = df.iloc[7, 5]   # Row 8, Column F
+                    model_pn = df.iloc[16, 2] # Row 17, Column C
                     description = df.iloc[29, 1]   # Row 30, Column B
                     dom = df.iloc[6, 1].strftime('%d-%b-%Y')   # Row 7, Column B
-                    lot_no = df.iloc[6, 5]      # Row 7, Column F
-                    lot_qty = df.iloc[7, 12]      # Row 8, Column M
+                    lot_no = df.iloc[6, 5]      # Row 7, Column F                    
+                    lot_qty = df.iloc[7, 12]      # Row 8, Column M (placeholder)
                     sg_po = df.iloc[8, 12]      # Row 9, Column M
                     small_qty = df.iloc[16, 3]      # Row 17, Column D
-                    qty = " "
 
                     copy_amount = df.iloc[7, 13] # Row 8, Column N
 
                     text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
 
-                    return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
+                    return part_number, mpn, model_pn, description, dom, lot_no, lot_qty, sg_po, small_qty
 
                 elif x_number == 'large' or x_number == 'box':
                     # Assuming we are inside the process_excel() function from the previous code
@@ -120,28 +125,32 @@ class agilent(Frame):
                     else :
                         df = workbook[f'ใบงาน Agilent_JOB {job_number}']  # Access the specific sheet by name
                     
+                    df1 = workbook['P2-QC กล่อง']
+
                     #specific rows and columns
                     part_number = df.iloc[8, 5]  # Row 9, Column F
                     mpn = df.iloc[7, 5]   # Row 8, Column F
+                    model_pn = df.iloc[16, 2] # Row 17, Column C
                     description = df.iloc[29, 1]   # Row 30, Column B
                     dom = df.iloc[6, 1].strftime('%d-%b-%Y')   # Row 7, Column B
                     lot_no = df.iloc[6, 5]      # Row 7, Column F
-                    lot_qty = df.iloc[7, 13]      # Row 8, Column N
+                    lot_qty = df1.iloc[9, 1]     # Row 10, Column B
                     sg_po = df.iloc[8, 13]      # Row 9, Column N
                     small_qty = df.iloc[16, 3]      # Row 17, Column D
-                    qty = " "
+                    
 
                     copy_amount = df.iloc[7, 13] # Row 8, Column N
 
-                    text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
+                    text_preview.insert(tk.END, f"Job นี้ต้องปริ้นกล่องทั้งหมด {lot_qty} ชิ้น\n")
+                    text_preview.insert(tk.END, f"Job นี้ต้องปริ้นถุงใหญ่ทั้งหมด {big_bag_count} ชิ้น\n\n")
 
-                    return part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty
+                    return part_number, mpn, model_pn, description, dom, lot_no, lot_qty, sg_po, small_qty
 
-                return 0, 0, 0, 0, 0, 0, 0, 0
+                return 0, 0, 0, 0, 0, 0, 0, 0, 0
 
             except Exception as e:
                 messagebox.showerror("Error", f"Failed to process file:\n{e}")
-                return 0, 0, 0, 0, 0, 0, 0, 0
+                return 0, 0, 0, 0, 0, 0, 0, 0, 0
 
 
         # Create a helper function to convert images to Base64 strings
@@ -178,7 +187,7 @@ class agilent(Frame):
 
         def generate_small_pdf(x_number): # x_number is the number of the sheet, for example sheet x.1 or x.2 to x.5
 
-            part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, x_number)
+            part_number, mpn, model_pn, description, dom, lot_no, lot_qty, sg_po, small_qty = process_excel(file_path, job_number, x_number)
             generate_barcode(part_number)  # Generate the barcode for the part number
             # Create a simple HTML template for the PDF
             html_content = f"""
@@ -258,8 +267,8 @@ class agilent(Frame):
                                 <td>{part_number}</td>
                             </tr>
                             <tr>
-                                <td class="label-col">Description:</td>
-                                <td>{description}</td>
+                                <td class="label-col">MPN:</td>
+                                <td>{model_pn}</td>
                             </tr>
                             <tr>
                                 <td class="label-col">DOM:</td>
@@ -271,7 +280,7 @@ class agilent(Frame):
                             </tr>
                             <tr>
                                 <td class="label-col">QTY:</td>
-                                <td>{small_qty}</td>
+                                <td>{small_qty} EA</td>
                             </tr>
                         </table>
 
@@ -289,7 +298,7 @@ class agilent(Frame):
             HTML(string=html_content).write_pdf(get_save_path(f"ถุงย่อย {job_number}.{x_number}.pdf", 'agilent\\ถุงย่อย'))
 
         def generate_large_pdf():
-            part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, 'large')
+            part_number, mpn, model_pn, description, dom, lot_no, lot_qty, sg_po, small_qty = process_excel(file_path, job_number, 'large')
             generate_barcode(mpn)  # Generate the barcode for the part number
             # Create a simple HTML template for the PDF
             html_content = f"""
@@ -382,7 +391,7 @@ class agilent(Frame):
                             </tr>
                             <tr>
                                 <td class="label-col">QTY:</td>
-                                <td>{qty}</td>
+                                <td>{small_qty} EA</td>
                             </tr>
                         </table>
 
@@ -400,7 +409,7 @@ class agilent(Frame):
             HTML(string=html_content).write_pdf(get_save_path(f"ถุงหลัก {job_number}.pdf", 'agilent\\ถุงหลัก'))
 
         def generate_box_pdf():
-            part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, 'box')
+            part_number, mpn, model_pn, description, dom, lot_no, lot_qty, sg_po, small_qty = process_excel(file_path, job_number, 'box')
             generate_barcode(mpn)  # Generate the barcode for the part number
             # Create a simple HTML template for the PDF
             html_content = f"""
@@ -493,7 +502,7 @@ class agilent(Frame):
                             </tr>
                             <tr>
                                 <td class="label-col">LOT QTY:</td>
-                                <td>{lot_qty}</td>
+                                <td>{lot_qty} PK</td>
                             </tr>
                             <tr>
                                 <td class="label-col">SG PO:</td>
@@ -501,7 +510,7 @@ class agilent(Frame):
                             </tr>
                             <tr>
                                 <td class="label-col">QTY/BOX:</td>
-                                <td>{qty}</td>
+                                <td>{lot_qty} PK</td>
                             </tr>
                         </table>
 

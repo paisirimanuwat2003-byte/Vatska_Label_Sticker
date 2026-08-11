@@ -64,12 +64,12 @@ class electrolux(Frame):
                     # Assuming we are inside the process_excel() function from the previous code
                     df = workbook[f'ใบงาน Electrolux']  # Access the specific sheet by name
 
-                    product_code = df.iloc[28, 2]  # Rows 32, column C
-                    product_desc = df.iloc[28, 2]  # Row 29, Column B
+                    product_code = df.iloc[28, 2]  # Rows 29, column C
+                    product_desc = df.iloc[28, 1]  # Row 29, Column B
                     lot_no = df.iloc[6,5] # Row 7, Column F
-                    qty = df.iloc[15, 4]  # Row 16, Column D
+                    qty = (df.iloc[15, 3])  # Row 16, Column D
                     date_mfg = df.iloc[6, 2].strftime('%d-%b-%Y') # Row 7, Column C
-                    po_no = df.iloc[8, 13] # Row 10, Column N
+                    po_no = df.iloc[8, 13] # Row 9, Column N
 
                     copy_amount = df.iloc[7, 13] # Row 8, Column N
 
@@ -160,7 +160,7 @@ class electrolux(Frame):
                             width: 85mm; /* Full width of the label */
                             border-collapse: collapse;
                             font-size: 9pt;
-                            margin-bottom: 10px;
+                            margin-bottom: 5px;
                         }}
 
                         .data-table td {{
@@ -204,7 +204,7 @@ class electrolux(Frame):
                             </tr>
                             <tr>
                                 <td class="label-col">Product Desc:</td>
-                                <td>{product_desc}</td>
+                                <td style="letter-spacing: -1px;">{product_desc}</td>
                             </tr>
                             <tr>
                                 <td class="label-col">Lot No.:</td>
@@ -212,7 +212,7 @@ class electrolux(Frame):
                             </tr>
                             <tr>
                                 <td class="label-col">Quantity:</td>
-                                <td>{qty}</td>
+                                <td>{qty} PC</td>
                             </tr>
                             <tr>
                                 <td class="label-col">Date of Mfg:</td>
