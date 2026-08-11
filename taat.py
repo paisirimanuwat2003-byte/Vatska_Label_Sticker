@@ -129,7 +129,7 @@ class taat(Frame):
             # This saves a file named "my_barcode.png" in your folder
             my_barcode.save(get_save_path('TAAT_barcode','TAAT_barcode'), options=my_options)  # Ensure this path exists and is writable
 
-        def generate_pdf():
+        def generate_pdf_bag():
             product_code, product_desc, lot_no, qty, date_mfg, date_exp = process_excel(file_path)
             generate_barcode(product_code)  # Generate the barcode for the part number
             # Create a simple HTML template for the PDF
@@ -270,13 +270,162 @@ class taat(Frame):
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(get_save_path(f"TAAT.pdf", 'taat'))
+            HTML(string=html_content).write_pdf(get_save_path(f"TAAT - bag.pdf", 'taat\\ถุงหลัก'))
+
+        def generate_pdf_box():
+            product_code, product_desc, lot_no, qty, date_mfg, date_exp = process_excel(file_path)
+            generate_barcode(product_code)  # Generate the barcode for the part number
+            # Create a simple HTML template for the PDF
+            html_content = f"""
+            <!DOCTYPE html>
+            <html>
+                <head>
+                    <meta charset="utf-8">
+                    <title>Label Layout</title>
+                    <style>
+                    @page {{
+                    size: 150mm 100mm; /* Set the exact physical PDF size here */
+                    margin: 0; /* Remove default page margins */
+                    }}
+                
+                    body {{
+                        font-family: 'Bahnschrift', sans-serif;
+                        font-variation-settings: 'wght' 25;
+                        margin: 0;
+                        padding: 2mm; /* Use padding inside the body instead of page margins */
+                    }}
+                        /* The main outer border matching the image */
+                        .label-container {{
+                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            width: 150mm; /* Adjust width as needed */
+                            height: 100mm; /* Adjust height as needed */
+                            box-sizing: border-box;
+                            position: relative;
+                        }}
+
+                        /* The top header text */
+                        .header-text {{
+                            font-size: 26pt;
+                            letter-spacing: 0.5mm; /* Matches the spaced-out 'a s d f v d' look */
+                            font-weight: normal;
+                        }}
+
+                        /* Table used for perfect vertical alignment of the labels and values */
+                        .data-table {{
+                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            width: 85mm; /* Full width of the label */
+                            border-collapse: collapse;
+                            font-size: 16pt;
+                        }}
+
+                        .data-table td {{
+                            vertical-align: top;
+                        }}
+
+                        /* Set a fixed width for the left column so the right column aligns perfectly */
+                        .label-col {{
+                            width: 50mm; /* Adjust width as needed */
+                        }}
+                        .label-col-right {{
+                            width: 50mm; /* Adjust width as needed */
+                            text-align: left;
+                        }}
+                        /* Set a fixed width for the left column so the right column aligns perfectly */
+                        .label-col1 {{
+                            width: 70mm; /* Adjust width as needed */
+                            font-size: 6pt;
+                            padding-top: 10mm;
+                            font-weight: bold;
+                            position: relative;
+                        }}
+                        .label-col2 {{
+                            font-size: 6pt; 
+                            font-weight: bold;
+                            text-align: right;
+                            position: absolute;
+                            right: 10mm;
+                            padding-top: 10mm;
+                        }}
+                        .black_line {{
+                            width: 140mm;
+                            height: 0.1mm;
+                            background-color: black;
+
+                        }}
+                        /* The barcode placeholder box with the "X" drawn using CSS gradients */
+                        .barcode-placeholder {{
+                            width: 80mm;
+                            height: auto;
+                        }}
+                    </style>
+                </head>
+                <body>
+                    <div class="label-container">
+                        <!-- Header Text -->
+                        <div class="header-text">
+                        <img src = "{get_image_b64(resource_path('icons\\Saint-Gobain-Emblem.png'))}" style = "width :30mm"  >
+                        </div>
+                        <div class="black_line" style = "margin-bottom: 5mm;"></div>
+                        <!-- Data Grid -->
+                        <table class="data-table">
+                            <tr>
+                                <td class="label-col">Product code:</td>
+                                <td class="label-col-right">{product_code}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Product Desc:</td>
+                                <td class="label-col-right">{product_desc}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Lot No.:</td>
+                                <td class="label-col-right">{lot_no}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Quantity:</td>
+                                <td class="label-col-right">{qty}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Date of Mfg:</td>
+                                <td class="label-col-right">{date_mfg}</td>
+                            </tr>
+                            <tr>
+                                <td class="label-col">Date of Exp:</td>
+                                <td class="label-col-right">{date_exp}</td>
+                            </tr>
+                        </table>
+                        <div class="black_line" style = "margin-top: 5mm;"></div>
+                        <!-- second data grid -->
+                        <table class="data-table">
+                            <tr>
+                                <td class="label-col1">
+                                    Manufactured by:
+                                    <p>Saint-Gobain Sekurit (Thailand) Co.,Ltd</p>
+                                    <p>64/47 Moo 4 Eastern Seaboard Industrial Estate</p>
+                                    <p>T.Pluakdaeng. A.Pluakdaeng Rayong 21140 Thailand</p>
+                                </td>
+                                <td class="label-col2">
+                                    <div class="barcode-placeholder">
+                                        <img src="{get_image_b64(get_save_path('TAAT_barcode.png','TAAT_barcode'))}" style = "width: 80mm; height: 20mm;">
+                                    </div>
+                                </td>   
+                            </tr>
+                        </table>
+                    </div>
+                </body>
+            </html>
+            """
+            HTML(string=html_content).write_pdf(get_save_path(f"TAAT - box.pdf", 'taat\\กล่อง'))
 
         # --- Copy Functions for each button ---
-        def btn_generate_pdf():
+        def btn_generate_pdf_bag():
             # Here you can define what happens when the "สร้างไฟล์สติกเกอร์" button is clicked
             messagebox.showinfo("Info", "สร้างไฟล์สติกเกอร์ button clicked!")
-            generate_pdf()  # Call the function to generate the box PDF
+            generate_pdf_bag()  # Call the function to generate the bag PDF
+
+        def btn_generate_pdf_box():
+            # Here you can define what happens when the "สร้างไฟล์สติกเกอร์" button is clicked
+            messagebox.showinfo("Info", "สร้างไฟล์สติกเกอร์ button clicked!")
+            generate_pdf_box()  # Call the function to generate the box PDF
 
         # Create the text box 
         text_preview = tk.Text(self, wrap=tk.WORD, width=45, height=10, font=("Consolas", 10))
@@ -287,10 +436,10 @@ class taat(Frame):
         btn_select.pack(pady=15)
 
         # The 8 Copy Buttons (Disabled by default until a file is loaded)
-        btn_generate_label = Button(self, text="ซองหลัก", command=btn_generate_pdf, state="disabled")
+        btn_generate_label = Button(self, text="ซองหลัก", command=btn_generate_pdf_bag, state="disabled")
         btn_generate_label.pack(pady=5)
 
-        btn_generate_box = Button(self, text="กล่อง", command=btn_generate_pdf, state="disabled")
+        btn_generate_box = Button(self, text="กล่อง", command=btn_generate_pdf_box, state="disabled")
         btn_generate_box.pack(pady=5)
 
         # return home button

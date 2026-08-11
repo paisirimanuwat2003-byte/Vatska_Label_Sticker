@@ -68,10 +68,10 @@ class welco(Frame):
 
                     model = df.iloc[2, 7]  # Row 3, Column H
                     tube_size = df.iloc[10, 1]  # Row 11, Column B
-                    assy_oal = df.iloc[6, 7] # Row 7, Column H
+                    assy_oal = str(df.iloc[6, 7])+str('mm') # Row 7, Column H
                     tube_mat = df.iloc[9, 1] # Row 10, Column B
                     assy_job_no = str(df.iloc[5, 1])+str(df.iloc[5, 2]) # Row 6, Column B to C
-                    mfg_date = df.iloc[5, 7].strftime('%d-%b-%Y') # Row 6, Column H
+                    mfg_date = df.iloc[4, 7].strftime('%d-%b-%Y') # Row 5, Column H
                     pack_qty = 10 # always 10
                     part_no = df.iloc[2, 7] # Row 3, Column H   
 

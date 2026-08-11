@@ -126,8 +126,8 @@ class agilent(Frame):
                     description = df.iloc[29, 1]   # Row 30, Column B
                     dom = df.iloc[6, 1].strftime('%d-%b-%Y')   # Row 7, Column B
                     lot_no = df.iloc[6, 5]      # Row 7, Column F
-                    lot_qty = df.iloc[7, 12]      # Row 8, Column M
-                    sg_po = df.iloc[8, 12]      # Row 9, Column M
+                    lot_qty = df.iloc[7, 13]      # Row 8, Column N
+                    sg_po = df.iloc[8, 13]      # Row 9, Column N
                     small_qty = df.iloc[16, 3]      # Row 17, Column D
                     qty = " "
 
@@ -279,11 +279,14 @@ class agilent(Frame):
                         <div class="barcode-placeholder">
                             <img src="{get_image_b64(get_save_path('agilent_barcode.png','agilent_barcode'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
+                        <div style="position: absolute; bottom: 5mm; right: 5mm; font-size: 4.5pt;">
+                            {job_number}.{x_number}
+                        </div>
                     </div>
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(get_save_path(f"ถุงย่อย {job_number}.{x_number}.pdf", 'agilent'))
+            HTML(string=html_content).write_pdf(get_save_path(f"ถุงย่อย {job_number}.{x_number}.pdf", 'agilent\\ถุงย่อย'))
 
         def generate_large_pdf():
             part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, 'large')
@@ -387,11 +390,14 @@ class agilent(Frame):
                         <div class="barcode-placeholder">
                             <img src="{get_image_b64(get_save_path('agilent_barcode.png','agilent_barcode'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
+                        <div style="position: absolute; bottom: 5mm; right: 5mm; font-size: 4.5pt;">
+                            {job_number}
+                        </div>
                     </div>
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(get_save_path(f"ถุงหลัก {job_number}.pdf", 'agilent'))
+            HTML(string=html_content).write_pdf(get_save_path(f"ถุงหลัก {job_number}.pdf", 'agilent\\ถุงหลัก'))
 
         def generate_box_pdf():
             part_number, mpn, description, dom, lot_no, lot_qty, sg_po, small_qty, qty = process_excel(file_path, job_number, 'box')
@@ -503,11 +509,14 @@ class agilent(Frame):
                         <div class="barcode-placeholder">
                             <img src="{get_image_b64(get_save_path('agilent_barcode.png','agilent_barcode'))}" style="width: 100%; height: 100%; object-fit: contain;">
                         </div>
+                        <div style="position: absolute; bottom: 5mm; right: 5mm; font-size: 8pt;">
+                            {job_number}
+                        </div>
                     </div>
                 </body>
             </html>
             """
-            HTML(string=html_content).write_pdf(get_save_path(f"กล่อง {job_number}.pdf", 'agilent'))
+            HTML(string=html_content).write_pdf(get_save_path(f"กล่อง {job_number}.pdf", 'agilent\\กล่อง'))
 
         # --- Copy Functions for each button ---
         def btn_generate_small(job_number, x_number):

@@ -64,12 +64,12 @@ class electrolux(Frame):
                     # Assuming we are inside the process_excel() function from the previous code
                     df = workbook[f'ใบงาน Electrolux']  # Access the specific sheet by name
 
-                    product_code = df.iloc[31, 2]  # Rows 32, column C
+                    product_code = df.iloc[28, 2]  # Rows 32, column C
                     product_desc = df.iloc[28, 2]  # Row 29, Column B
                     lot_no = df.iloc[6,5] # Row 7, Column F
                     qty = df.iloc[15, 4]  # Row 16, Column D
                     date_mfg = df.iloc[6, 2].strftime('%d-%b-%Y') # Row 7, Column C
-                    po_no = df.iloc[8, 13] # Row 9, Column N
+                    po_no = df.iloc[8, 13] # Row 10, Column N
 
                     copy_amount = df.iloc[7, 13] # Row 8, Column N
 
@@ -193,7 +193,7 @@ class electrolux(Frame):
                     <div class="label-container">
                         <!-- Header Text -->
                         <div class="header-text">
-                        <img src = "{get_image_b64(resource_path('icons\electrolux.png'))}" style = "width :15mm"  >
+                        <img src = "{get_image_b64(resource_path('icons\electrolux.png'))}" style = "width :20mm"  >
                         </div>
                         <div class="black_line"></div>
                         <!-- Data Grid -->
