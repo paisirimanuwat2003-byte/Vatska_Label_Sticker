@@ -149,11 +149,12 @@ class taat(Frame):
                         font-family: 'Bahnschrift', sans-serif;
                         font-variation-settings: 'wght' 25;
                         margin: 0;
-                        padding: 2mm; /* Use padding inside the body instead of page margins */
+                        padding: 0mm; /* Use padding inside the body instead of page margins */
+                        padding-left: 2mm;
                     }}
                         /* The main outer border matching the image */
                         .label-container {{
-                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            padding-left: 0mm; /* Add some padding to the left for better alignment */
                             width: 85mm; /* Adjust width as needed */
                             height: 50mm; /* Adjust height as needed */
                             box-sizing: border-box;
@@ -169,10 +170,10 @@ class taat(Frame):
 
                         /* Table used for perfect vertical alignment of the labels and values */
                         .data-table {{
-                            padding-left: 5mm; /* Add some padding to the left for better alignment */
+                            padding-left: 0mm; /* Add some padding to the left for better alignment */
                             width: 85mm; /* Full width of the label */
                             border-collapse: collapse;
-                            font-size: 9pt;
+                            font-size: 8pt;
                         }}
 
                         .data-table td {{
@@ -185,9 +186,9 @@ class taat(Frame):
                         }}
                         /* Set a fixed width for the left column so the right column aligns perfectly */
                         .label-col1 {{
-                            width: 25mm; /* Adjust width as needed */
-                            font-size: 3pt;
-                            margin-top: 5mm;
+                            width: 35mm; /* Adjust width as needed */
+                            font-size: 5pt;
+                            margin-top: 10mm;
                             font-weight: bold;
                             position: relative;
                         }}
@@ -197,7 +198,7 @@ class taat(Frame):
                             text-align: right;
                             # margin-top: 3mm;
                             position: absolute;
-                            right: 10mm;
+                            right: 5mm;
                         }}
                         .black_line {{
                             width: 75mm;
@@ -206,7 +207,7 @@ class taat(Frame):
                         }}
                         /* The barcode placeholder box with the "X" drawn using CSS gradients */
                         .barcode-placeholder {{
-                            width: 20mm;
+                            width: 40mm;
                             height: auto;
                         }}
                     </style>
@@ -245,14 +246,14 @@ class taat(Frame):
                                 <td>{date_exp}</td>
                             </tr>
                         </table>
-                        <div class="black_line"></div>
+                        <div class="black_line" style = "margin-bottom: 5mm;"></div>
                         <!-- second data grid -->
                         <table class="data-table">
                             <tr>
                                 <td class="label-col1">Manufactured by:</td>
                                 <td class="label-col2">
                                     <div class="barcode-placeholder">
-                                        <img src="{get_image_b64(get_save_path('TAAT_barcode.png','TAAT_barcode'))}" style = "width: 25mm; height: 10mm;">
+                                        <img src="{get_image_b64(get_save_path('TAAT_barcode.png','TAAT_barcode'))}" style = "width: 40mm; height: 10mm;">
                                     </div>
                                 </td>   
                             </tr>
