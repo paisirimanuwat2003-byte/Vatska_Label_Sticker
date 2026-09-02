@@ -68,7 +68,11 @@ class electrolux(Frame):
                     product_desc = df.iloc[28, 1]  # Row 29, Column B
                     lot_no = df.iloc[6,5] # Row 7, Column F
                     qty = (df.iloc[15, 3])  # Row 16, Column D
-                    date_mfg = df.iloc[6, 2].strftime('%d-%b-%Y') # Row 7, Column C
+                    date_cell = pd.to_datetime(df.iloc[6, 2], dayfirst=True, errors='coerce')
+                    if pd.isna(date_cell):
+                        date_mfg = 'Date Not Found'
+                    else:
+                        date_mfg = date_cell.strftime('%d-%b-%Y') # Row 7, Column C
                     po_no = df.iloc[8, 13] # Row 9, Column N
 
                     copy_amount = df.iloc[7, 13] # Row 8, Column N

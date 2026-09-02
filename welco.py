@@ -71,7 +71,11 @@ class welco(Frame):
                     assy_oal = df.iloc[6, 7] # Row 7, Column H
                     tube_mat = df.iloc[9, 1] # Row 10, Column B
                     assy_job_no = str(df.iloc[5, 1])+str(df.iloc[5, 2]) # Row 6, Column B to C
-                    mfg_date = df.iloc[4, 7].strftime('%d-%b-%Y') # Row 5, Column H
+                    date_cell = pd.to_datetime(df.iloc[4, 7], dayfirst=True, errors='coerce')
+                    if pd.isna(date_cell):
+                        mfg_date = 'Date Not Found'
+                    else:
+                        mfg_date = date_cell.strftime('%d-%b-%Y') # Row 5, Column H
                     pack_qty = 10 # always 10
                     part_no = df.iloc[2, 7] # Row 3, Column H   
 

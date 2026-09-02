@@ -106,13 +106,23 @@ class agilent(Frame):
                     mpn = df.iloc[7, 5]   # Row 8, Column F
                     model_pn = df.iloc[16, 2] # Row 17, Column C
                     description = df.iloc[29, 1]   # Row 30, Column B
-                    dom = df.iloc[6, 1].strftime('%d-%b-%Y')   # Row 7, Column B
+                    date_cell = pd.to_datetime(df.iloc[6, 1], dayfirst=True, errors='coerce')
+                    if pd.isna(date_cell):
+                        dom = 'Date Not Found'
+                    else:
+                        dom = date_cell.strftime('%d-%b-%Y')
                     lot_no = df.iloc[6, 5]      # Row 7, Column F                    
                     lot_qty = df.iloc[7, 12]      # Row 8, Column M (placeholder)
                     sg_po = df.iloc[8, 12]      # Row 9, Column M
                     small_qty = df.iloc[16, 3]      # Row 17, Column D
 
-                    copy_amount = df.iloc[7, 13] # Row 8, Column N
+                    print(df.iloc[7,12])
+
+                    print(df.iloc[8,12])
+
+
+
+                    copy_amount = df.iloc[7, 12] if pd.notna(df.iloc[7, 12]) else df.iloc[7, 13] # Row 8, Column M (fallback N)
 
                     text_preview.insert(tk.END, f"Job นี้ต้องปริ้นทั้งหมด {copy_amount} ชิ้น\n\n")
 
@@ -132,14 +142,18 @@ class agilent(Frame):
                     mpn = df.iloc[7, 5]   # Row 8, Column F
                     model_pn = df.iloc[16, 2] # Row 17, Column C
                     description = df.iloc[29, 1]   # Row 30, Column B
-                    dom = df.iloc[6, 1].strftime('%d-%b-%Y')   # Row 7, Column B
+                    date_cell = pd.to_datetime(df.iloc[6, 1], dayfirst=True, errors='coerce')
+                    if pd.isna(date_cell):
+                        dom = 'Date Not Found'
+                    else:
+                        dom = date_cell.strftime('%d-%b-%Y')
                     lot_no = df.iloc[6, 5]      # Row 7, Column F
                     lot_qty = df1.iloc[9, 1]     # Row 10, Column B
-                    sg_po = df.iloc[8, 13]      # Row 9, Column N
+                    sg_po = df.iloc[8, 12] if pd.notna(df.iloc[8, 12]) else df.iloc[8, 13]      # Row 9, Column M (fallback N)
                     small_qty = df.iloc[16, 3]      # Row 17, Column D
                     
 
-                    copy_amount = df.iloc[7, 13] # Row 8, Column N
+                    copy_amount = df.iloc[7, 12] if pd.notna(df.iloc[7, 12]) else df.iloc[7, 13] # Row 8, Column M (fallback N)
 
                     text_preview.insert(tk.END, f"Job นี้ต้องปริ้นกล่องทั้งหมด {lot_qty} ชิ้น\n")
                     text_preview.insert(tk.END, f"Job นี้ต้องปริ้นถุงใหญ่ทั้งหมด {big_bag_count} ชิ้น\n\n")

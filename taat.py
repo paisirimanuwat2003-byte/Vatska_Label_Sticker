@@ -73,16 +73,17 @@ class taat(Frame):
                     raw_date = df.iloc[7, 1] # Row 8, Column B
                     
                     # 1. Ensure Python knows it is a date (just in case Excel sent it as a string)
-                    pd_date = pd.to_datetime(raw_date)
+                    pd_date = pd.to_datetime(raw_date, dayfirst=True, errors='coerce')
+                    if pd.isna(pd_date):
+                        date_mfg = 'Date Not Found'
+                    else:
+                        date_mfg = pd_date.strftime("%d-%b-%Y")
 
-                    # 2. Convert to your desired string format
-                    date_mfg = pd_date.strftime("%d-%b-%Y") # Example: 27/04/2024
-
-                    # 3. Convert to a date object (so Python knows how to add years)
+                    # Convert to a date object (so Python knows how to add years)
                     date_exp = pd_date.date() + pd.DateOffset(years=2)
 
-                    # 4. Convert the result back to a string for the PDF
-                    date_exp = date_exp.strftime("%d-%b-%Y") # Example: 27/04/2026
+                    # Convert the result back to a string for the PDF
+                    date_exp = date_exp.strftime("%d-%b-%Y")
 
                     copy_amount = df.iloc[9, 7] # Row 10, Column H
 
